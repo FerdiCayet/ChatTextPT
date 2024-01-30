@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>ChatTextPT</title>
+    </head>
+    <body>
+        <div class="info-container">
+            <section>
+                <span id="logo" alt="ChatTextPT"></span>
+                <div class="introd-container"></div>
+                <div class="icon-scroll"><div/>
+            </section>
+        </div>
+        <div class="toggle-mode">
+            <img id="toggleBtn" src="https://cdn-icons-png.flaticon.com/512/4623/4623236.png" width="30" height="30">
+        </div>
+        <div id="chat">
+            <div class="chat-saves">
+                <div class="chat-header">
+                    <button id="start-chat">Iniciar novo chat</button>
+                    <div><button>X</button></div>
+                </div>
+                <p class="recents">Recentes</p>
+                <div class="chat-history"></div>
+            </div>
+            <div class="chat-container">
+                <div class="chat-start">
+                    <div class="chat-log" id="chat-log">
+                        <div class="bot-message">Olá! Como posso ajudar?</div>
+                    </div>
+                    <div class="user-input">
+                        <input type="text" id="user-text" placeholder="Digite sua mensagem...">
+                        <button id="send-button" disabled="false">Enviar</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </body>
+</html>
