@@ -1,0 +1,341 @@
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+html, body{
+    scroll-behavior: smooth;
+    scrollbar-width: thin;
+}
+body{
+    font-family: Arial, sans-serif;
+    accent-color: #ffa485bb;
+    background: hsla(173, 54%, 73%, 1);
+    background: linear-gradient(90deg, hsla(173, 54%, 73%, 1) 0%, hsla(199, 100%, 64%, 1) 49%, hsla(0, 100%, 67%, 1) 100%);
+    color: black;
+    overflow-x: hidden;
+    scrollbar-width: thin;
+    transition: all 0.3s ease-in-out;
+}
+
+/* Estilo para seleção de texto */
+::selection{
+    color: #000000fd;
+    background-color: #ffa485bb;
+}
+
+.info-container{
+    display: flex;
+}
+.info-container section{
+    height: 100vh;
+    width: 100%;
+}
+
+.introd-container{
+    background: hsla(173, 54%, 73%, 1);
+    background: linear-gradient(90deg, hsla(173, 54%, 73%, 1) 0%, hsla(199, 100%, 64%, 1) 49%, hsla(0, 100%, 67%, 1) 100%);
+    margin: 0 auto;
+    margin-top: 120px;
+    max-width: 900px;
+    height: 50%;
+    padding: 15px;
+    overflow-y: auto;
+    border-radius: 5px;
+    border: 1px solid blue;
+}
+.introd-container p{    
+    overflow: hidden;
+    display: block;
+    position: relative;
+    max-width: 980px;
+    margin: 0 auto 15px;
+    justify-content: center;
+    align-items: center;
+    /*text-overflow: ellipsis;*/
+}
+.introd-container p:last-child:after {
+    content: '|';
+    background: black;
+    border-radius: 1px;
+    display: inline-block;
+    animation: blink 0.5s linear infinite alternate;
+}
+@keyframes blink {
+    50% {
+        opacity: 0;
+    }
+    100% {
+        opacity: 1;
+    }
+}
+
+.icon-scroll, .icon-scroll:before{
+    position: absolute;
+    left: 50%;
+}
+.icon-scroll{
+    width: 40px;
+    height: 70px;
+    margin-left: -20px;
+    top: 80%;
+    margin-top: -35px;
+    box-shadow: inset 0 0 0 1px #144b9e;
+    border-radius: 25px;
+}
+.icon-scroll:before{
+    content: '';
+    width: 8px;
+    height: 8px;
+    background: #144b9e;
+    margin-left: -4px;
+    top: 8px;
+    border-radius: 4px;
+    animation-duration: 1.5s;
+    animation-iteration-count: infinite;
+    animation-name: scroll;
+}
+@keyframes scroll{
+    0%{
+        opacity: 1;
+    }
+    100%{
+        opacity: 0;
+        transform: translateY(46px);
+    }
+}
+
+#toggle-mode{
+    display: block;
+    position: absolute;
+    top: 10px;
+    right: 10px;
+}
+#toggle-mode span{
+    display: block;
+    /* background-image: url('https://img.icons8.com/?size=256&id=iMUvwxli73au&format=png'); */
+    background-image: url('https://img.icons8.com/?size=256&id=URphhfIjBd0M&format=png');
+    background-repeat: no-repeat;
+    background-position: top;
+    background-size: contain;
+    width: 50px;
+    height: 50px;
+}
+
+.menu-button {
+    background-color: #94dfd8;
+    border: 1px solid #fc595a;
+    position: absolute;
+    padding: 4px;
+    width: 40px;
+    left: 180px;
+    bottom: -45px;
+    border-radius: 7px;
+    z-index: 2;
+    transition: 0.3s ease-in-out;
+}
+.menu-button:hover {
+    background-color: #fc595a;
+    border: 1px solid #94dfd8;
+    transition: 0.3s ease-in-out;
+}
+.menu-icon {
+    cursor: pointer;
+    display: block;
+}
+.menu {
+    height: 3px;
+    background-color: #ffffff;
+    margin: 4px 0;
+}
+
+#chat{
+    display: flex;
+}
+
+.chat-saves{
+    background-color: #95dfd7;
+    display: flex;
+    min-width: 230px;
+    height: 100vh;
+    border: 1px solid #B51A2B;
+    flex-direction: column;
+    z-index: 1;
+    transition: all 0.3s ease-in-out;
+}
+.chat-header{
+    display: flex;
+    padding: 10px;
+    justify-content: space-between;
+}
+.recents{
+    font-size: 10px;
+    margin: 0px 12px 10px;
+    color: #ffa486bd;
+}
+.chat-history{
+    border: 1px solid #b01b2c;
+    height: inherit;
+    overflow-y: auto;
+    overflow-x: hidden;
+}
+/* Estilos para o Mozilla Firefox */
+@-moz-document url-prefix() {
+    .chat-history {
+        scrollbar-width: thin;
+    }
+}
+.chat-info{
+    border: 1px solid #1bb034;
+    display: block;
+    height: 33px;
+    padding: 5px;
+    border-radius: 5px;
+    transition: all 0.2s ease-in-out;
+}
+.chat-info:hover{
+    color: #144b9e;
+    background-color: #f85c5e;
+    border: 1px solid #8cdcdc;
+    cursor: pointer;
+    transition: all 0.2s ease-in-out;
+}
+.chat-name{
+    display: -webkit-box;
+    -webkit-line-clamp: 1;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    font-size: 12px;
+    width: 190px;
+    cursor: default;
+}
+.chat-option{
+    display: block;
+    border: 1px solid red;
+    position: relative;
+    /* right: -190px; */
+    left: 188px;
+    top: -15px;
+    width: 15px;
+    height: 10px;
+    padding: 10px 10px;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.optionActive{
+    position: relative;
+    display: block;
+    width: 150px;
+    /* height: 66px; */
+    border: 1px solid #144b9e;
+    border-radius: 5px;
+    /* left: 220px; */
+    left: 38px;
+    margin-top: -43px;
+    background-color: #65cfef;
+    cursor: default;
+    z-index: 3;
+}
+.optionActive span{
+    border: 1px solid #91ded9;
+    display: block;
+    width: 100%;
+    height: 33px;
+    font-size: 12px;
+    padding: 8px 15px;
+    cursor: pointer;
+    border-radius: 5px;
+    transition: all .3s ease-in-out;
+}
+.optionActive span:hover{
+    background-color: #91ded9;
+    color: #144b9e;
+    border: 1px solid #000000;
+    cursor: pointer;
+}
+
+.chat-container {
+    /*background-color: #144b9e;
+     margin: 0px auto;
+    padding: 20px; 
+    top: 0px;*/
+    position: relative;
+    min-width: 0; /* Para garantir que o elemento não seja mais largo que o contêiner pai */
+    width: 100%; /* Faz com que o elemento ocupe toda a largura disponível */
+    height: 100vh;
+    border: 1px solid #d7dfe7;
+    border-radius: 5px;
+}
+.chat-start{
+    margin: 0px auto;
+    max-width: 980px;
+    height: -webkit-fill-available;
+}
+.chat-log{
+    background-color: #bf7e92c9;
+    position: relative;
+    height: 93vh;
+    overflow-y: auto;
+    margin-bottom: 10px;
+    padding: 10px;
+    border: 1px solid #B51A2B;
+    border-radius: 5px;
+}
+
+.bot-message {
+    background-color: #93dfd8;
+    color: #1f64b1;
+    padding: 8px;
+    border-radius: 5px;
+    margin-bottom: 10px;
+    word-wrap: break-word;
+}
+
+.user-message{
+    background-color: #f2f2f281;
+    color: #4f7cc0;
+    padding: 8px;
+    border-radius: 5px;
+    margin-bottom: 10px;
+    word-wrap: break-word;
+}
+
+.user-input {
+    position: relative;
+    bottom: 0px;
+    margin: 0px auto;
+    min-width: 0; /* Para garantir que o elemento não seja mais largo que o contêiner pai */
+    width: 95%; /* Faz com que o elemento ocupe toda a largura disponível */
+    display: flex;
+    align-items: center;
+}
+#user-text{ 
+    background-color: #c54849;
+    color: #92ded8;
+    flex: 1;
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    margin-right: 10px;
+    transition: .3s ease;
+}
+#user-text::placeholder{
+    color: #78a8d3;
+}
+
+#start-chat, #send-button{
+    padding: 8px 15px;
+    background-color: #ffa586;
+    border: 1px solid transparent;
+    border: none;
+    border-radius: 5px;
+    color: white;
+    font-weight: bold;
+    cursor: pointer;
+}
+#send-button:disabled {
+    background-color: #fdd3c4;
+    color: #383838;
+    cursor: default;
+}
