@@ -409,3 +409,51 @@ body.dark-mode {
     background: linear-gradient(90deg, rgba(24, 29, 48, 1) 0%, rgba(36, 47, 73, 1) 50%, rgba(181, 26, 43, 1) 100%);
     border: 1px solid red;
 }
+
+/* Este bloco de código CSS personaliza a aparência da barra de rolagem para navegadores baseados em WebKit, como Chrome e Safari.
+A aparência varia dependendo do modo de tema (claro ou escuro) definido no corpo (body) do documento. */
+
+/* Define a largura da barra de rolagem */
+body:is([class*="dark-mode"]) ::-webkit-scrollbar,
+body:not([class*="dark-mode"]) ::-webkit-scrollbar {
+    width: 7px;
+    scrollbar-gutter: stable; /* Torna o espaço reservado para a barra de rolagem estável */
+}
+
+/* Estilo da trilha da barra de rolagem */
+body:is([class*="dark-mode"]) ::-webkit-scrollbar-track {
+    background: #822236;
+    border-radius: 3px;
+}
+body:not([class*="dark-mode"]) ::-webkit-scrollbar-track {
+    background: #d17281;
+    border-radius: 3px;
+}
+
+/* Estilo da trilha da barra de rolagem ao passar o mouse */
+body:is([class*="dark-mode"]) ::-webkit-scrollbar-track:hover,
+body:not([class*="dark-mode"]) ::-webkit-scrollbar-track:hover {
+    background: transparent; /* Torna a trilha transparente ao passar o mouse */
+}
+
+/* Estilo do controle deslizante (a parte que pode ser arrastada) */
+body:is([class*="dark-mode"]) ::-webkit-scrollbar-thumb {
+    background: #332d46;
+    border: 0.5px solid #b51a2b;
+    border-radius: 10px;
+}
+body:not([class*="dark-mode"]) ::-webkit-scrollbar-thumb {
+    background: #68d0ee;
+    border: 0.5px solid #567cb4;
+    border-radius: 10px;
+}
+
+/* Estilo do controle deslizante quando hover */
+body:is([class*="dark-mode"]) ::-webkit-scrollbar-thumb:hover {
+    background: #181d30;
+    border: 0.5px solid #db1f34;
+}
+body:not([class*="dark-mode"]) ::-webkit-scrollbar-thumb:hover {
+    background: #00c8ff;
+    border: 0.5px solid #93dfd8;
+}
