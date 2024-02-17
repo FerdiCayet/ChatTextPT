@@ -181,7 +181,7 @@ body{
 }
 /* Estilos para o Mozilla Firefox */
 @-moz-document url-prefix() {
-    .chat-history {
+    .chat-history, .chat-log {
         scrollbar-width: thin;
     }
 }
@@ -456,4 +456,12 @@ body:is([class*="dark-mode"]) ::-webkit-scrollbar-thumb:hover {
 body:not([class*="dark-mode"]) ::-webkit-scrollbar-thumb:hover {
     background: #00c8ff;
     border: 0.5px solid #93dfd8;
+}
+
+/* Estilos específicos para o Mozilla Firefox */
+@-moz-document url-prefix() {
+    html {
+        /* Seletor específico para o Mozilla Firefox */
+        scrollbar-color: #931f32 #e36676;
+    }
 }
