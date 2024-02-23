@@ -181,7 +181,7 @@ body{
 }
 /* Estilos para o Mozilla Firefox */
 @-moz-document url-prefix() {
-    .chat-history, .chat-log {
+    .introd-container, .chat-history, .chat-log {
         scrollbar-width: thin;
     }
 }
