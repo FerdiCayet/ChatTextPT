@@ -465,3 +465,15 @@ body:not([class*="dark-mode"]) ::-webkit-scrollbar-thumb:hover {
         scrollbar-color: #931f32 #e36676;
     }
 }
+
+/* Personaliza as cores da barra de rolagem para diferentes modos de tema.
+ Se o navegador não suporta a personalização das barras de rolagem, define cores específicas
+ para o modo escuro e claro com base na presença da classe dark-mode no corpo (body) do documento. */
+ @supports not selector(::-webkit-scrollbar) {
+    body:is([class*="dark-mode"]) {
+        scrollbar-color: #181d30 #822236;
+    }
+    body:not([class*="dark-mode"]) {
+        scrollbar-color: #68d0ee #d17281;
+    }
+}
