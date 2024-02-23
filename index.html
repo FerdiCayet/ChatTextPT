@@ -29,19 +29,25 @@
         </noscript>
         <div class="info-container">
             <section>
-                <span id="logo" alt="ChatTextPT"></span>
+                <span id="logo" title="Chat de Texto em Português" onclick="location.reload();"></span>
                 <div class="introd-container"></div>
                 <div class="icon-scroll"><div/>
             </section>
         </div>
-        <div class="toggle-mode">
-            <img id="toggleBtn" src="https://cdn-icons-png.flaticon.com/512/4623/4623236.png" width="30" height="30">
+        <div id="toggle-mode">
+            <span></span>
+        </div>
+        <div class="menu-button" style="left: 180px;">
+            <div class="menu-icon" id="menuIcon">
+                <div class="menu"></div>
+                <div class="menu"></div>
+                <div class="menu"></div>
+            </div>
         </div>
         <div id="chat">
-            <div class="chat-saves">
+            <div class="chat-saves" style="position: relative; left: auto;">
                 <div class="chat-header">
                     <button id="start-chat">Iniciar novo chat</button>
-                    <div><button>X</button></div>
                 </div>
                 <p class="recents">Recentes</p>
                 <div class="chat-history"></div>
@@ -52,8 +58,8 @@
                         <div class="bot-message">Olá! Como posso ajudar?</div>
                     </div>
                     <div class="user-input">
-                        <input type="text" id="user-text" placeholder="Digite sua mensagem...">
-                        <button id="send-button" disabled="false">Enviar</button>
+                        <input type="text" id="user-text" placeholder="Digite sua mensagem..." spellcheck="true">
+                        <button id="send-button" disabled="true">Enviar</button>
                     </div>
                 </div>
             </div>
