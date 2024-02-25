@@ -24,6 +24,19 @@ body{
     background-color: #ffa485bb;
 }
 
+#logo {
+    background-image: url('../../path/logo/Logo.png');
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: cover;
+    image-rendering: auto;
+    display: block;
+    position: absolute;
+    width: 160px;
+    height: 120px;
+    left: -10px;
+}
+
 .info-container{
     display: flex;
 }
@@ -110,11 +123,11 @@ body{
     position: absolute;
     top: 10px;
     right: 10px;
+    cursor: pointer;
 }
 #toggle-mode span{
     display: block;
-    /* background-image: url('https://img.icons8.com/?size=256&id=iMUvwxli73au&format=png'); */
-    background-image: url('https://img.icons8.com/?size=256&id=URphhfIjBd0M&format=png');
+    background-image: url('./../../path/icons/darkMode.png');
     background-repeat: no-repeat;
     background-position: top;
     background-size: contain;
@@ -351,7 +364,7 @@ body.dark-mode {
     background-color: #ffc7b9;
 }
 .dark-mode #toggle-mode span {
-    background-image: url("https://img.icons8.com/?size=256&id=H3mmKEsuafpa&format=png");
+    background-image: url('./../../path/icons/lightMode.png');
 }
 .dark-mode button {
     background-color: #ffa586;
@@ -464,6 +477,14 @@ body:not([class*="dark-mode"]) ::-webkit-scrollbar-thumb:hover {
         /* Seletor específico para o Mozilla Firefox */
         scrollbar-color: #931f32 #e36676;
     }
+}
+
+/* Este bloco de código CSS verifica se o navegador suporta a propriedade scrollbar-color.
+ Se suportado, define as cores da barra de rolagem para o elemento html.*/
+ @supports (scrollbar-color: auto) {
+    /* html {
+        scrollbar-color: #931f32 #e36676;
+    } */
 }
 
 /* Personaliza as cores da barra de rolagem para diferentes modos de tema.
