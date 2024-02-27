@@ -305,6 +305,85 @@ body{
     word-wrap: break-word;
 }
 
+ .bot-message:hover > .copyText{
+    animation: zoomIn 0.3s ease-in-out forwards; /* Animação para zoom quando exibido */
+}
+
+.copyText{
+    display: -webkit-inline-box;
+    background-color: #fc595a;
+    border: 1px solid #1f64b1;
+    height: 21px;
+    width: 18px;
+    position: absolute;
+    right: 23px;
+    cursor: pointer;
+    border-radius: 4px;
+    transition: .3s ease-in-out;
+    animation: zoomOut 0.3s ease-in-out forwards; /* Animação para diminuir o zoom quando o mouse sai */
+}
+
+@keyframes zoomIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 50%;
+    }
+}
+@keyframes zoomOut {
+    from {
+        opacity: 50%;
+    }
+    to {
+        opacity: 0;
+    }
+}
+
+.copyText.copied::after {
+    content: "Copiado!";
+    position: absolute;
+    width: max-content;
+    top: -25px;
+    right: 0;
+    background-color: rgba(0, 255, 0, 0.7);
+    border: 1px solid #1f64b1;
+    color: #1f1e30d3;
+    padding: 4px;
+    border-radius: 4px;
+    font-size: 12px;
+    transition: opacity 1s ease-in-out;
+    opacity: 100%;
+}
+
+.copyText.error::after {
+    content: "Erro ao copiar!";
+    position: absolute;
+    width: max-content;
+    top: -25px;
+    right: 0;
+    background-color: rgba(255, 0, 0, 0.7);
+    border: 1px solid #1f1e30;
+    color: #ffffff;
+    padding: 4px;
+    border-radius: 4px;
+    font-size: 12px;
+    transition: opacity 1s ease-in-out;
+    opacity: 100%;
+}
+.copyText.copied:hover{
+    transform: scale(1);
+    opacity: 100% !important;
+}
+.copyText.error:hover{
+    transform: scale(1);
+    opacity: 100% !important;
+}
+.copyText:hover{
+    transform: scale(1.3);
+    opacity: 75% !important;
+}
+
 .user-message{
     background-color: #f2f2f281;
     color: #4f7cc0;
@@ -392,6 +471,20 @@ body.dark-mode {
 .dark-mode .bot-message {
     background-color: #1f2831;
     color: #949ea8;
+}
+.dark-mode .copyText{
+    background-color: #832236;
+    border: 1px solid #b41a2b;
+}
+.dark-mode .copyText.copied::after {
+    background-color: #242f49;
+    border: 1px solid #1f64b1;
+    color: #ccc;
+}
+.dark-mode .copyText.error::after {
+    background-color: #b51a2b;
+    border: 1px solid #680f18;
+    color: #181d30;
 }
 .dark-mode .user-message {
     color: #1b1b1b;
