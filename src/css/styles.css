@@ -452,6 +452,36 @@ body {
     word-wrap: break-word;
 }
 
+.scrollDown{
+    background-image: url('./../../path/icons/scrollDown.png');
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: 25px;
+    display: block;
+    position: sticky;
+    margin-left: auto;
+    margin-right: auto;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    height: 21px;
+    width: 21px;
+    z-index: 1;
+    border-radius: 5px;
+    border: 1px solid #0b3367;
+    background-color: #4da9c3;
+    cursor: pointer;
+    transition: opacity 0.3s ease; /* Adicionando transição de 0.3 segundos para a propriedade opacity */
+    opacity: 1; /* Garante que o botão esteja inicialmente visível */
+}
+.scrollDown.hidden {
+    opacity: 0; /* Define a opacidade para 0 quando o botão estiver oculto */
+    pointer-events: none; /* Desabilita eventos de clique quando o botão estiver oculto */
+}
+.scrollDown:active{
+    border: 1px solid #65cfef;
+}
+
 .user-input {
     position: relative;
     bottom: 0px;
@@ -570,6 +600,14 @@ body.dark-mode {
 }
 .dark-mode .user-message {
     color: #1b1b1b;
+}
+.dark-mode .scrollDown{
+    background-image: url('./../../path/icons/scrollDownDark.png');
+    border: 1px solid #b51a2b;
+    background-color: #3f1622;
+}
+.dark-mode .scrollDown:active{
+    border: 1px solid #1a2035;
 }
 .dark-mode #user-text {
     background-color: #541b2e;
