@@ -4,7 +4,10 @@ const iconScroll = document.querySelector('.icon-scroll');
 const toggleButton = document.getElementById('toggle-mode');
 const btnMenu = document.querySelector('.menu-button');
 const menuIcon = document.getElementById('menuIcon');
+const chatContent = document.querySelector('.chat-content');
 const chatSaves = document.querySelector('.chat-saves');
+const chatHistoryContainer = document.querySelector('.chat-history');
+const chatConfig = document.querySelector('.chat-config');
 const chatPage = document.querySelector('.chat-container');
 const chatStart = document.querySelector('.chat-start')
 const chatLog = document.getElementById('chat-log');
@@ -135,6 +138,28 @@ menuIcon.addEventListener('click', () => {
     chatSaves.style.position = (chatSaves.style.position === 'relative') ? 'absolute' : 'relative';
     chatSaves.style.left = (chatSaves.style.left === 'auto') ? '-230px': 'auto';
     btnMenu.style.left = (btnMenu.style.left === '180px') ? '11px': '180px';
+});
+
+// Evento de clique no elemento que permite ao usuário alternar entre as opções "Conversas" e "Configuração".
+chatContent.addEventListener('click', (e) => {
+    const target = e.target;
+
+    // Verifica se o alvo possui a classe 'menuSelect'
+    if (target.classList.contains('menuSelect')) {
+        const menu = target.dataset.menu;
+
+        if (menu === 'conversas') {
+            chatHistoryContainer.style.display = 'block';
+            chatConfig.style.display = 'none';
+            document.querySelector('.menuSelect:first-child').style.borderBottomColor = '#b51a2b';
+            document.querySelector('.menuSelect:last-child').style.borderBottomColor = 'transparent';
+        } else if (menu === 'configuracao') {
+            chatHistoryContainer.style.display = 'none';
+            chatConfig.style.display = 'block';
+            document.querySelector('.menuSelect:first-child').style.borderBottomColor = 'transparent';
+            document.querySelector('.menuSelect:last-child').style.borderBottomColor = '#b51a2b';
+        }
+    }
 });
 
 // Função para verificar se o usuário está no final do chat

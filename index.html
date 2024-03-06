@@ -49,8 +49,17 @@
                 <div class="chat-header">
                     <button id="start-chat">Iniciar novo chat</button>
                 </div>
-                <p class="recents">Recentes</p>
-                <div class="chat-history"></div>
+                <div class="menu-chat">
+                    <div class="chat-content">
+                        <div class="menuSelect" data-menu="conversas">Conversas</div>
+                        <div class="menuSelect" data-menu="configuracao">Configuração</div>
+                    </div>
+                    <div id="menuSelected">
+                        <div class="chat-history"></div>
+                        <div class="chat-config" style="display: none"></div>
+                        <span id="logoChat" title="Chat de Texto em Português" onclick="location.reload();"></span>
+                    </div>
+                </div>
             </div>
             <div class="chat-container">
                 <div class="chat-start">

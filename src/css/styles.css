@@ -201,20 +201,60 @@ body {
     justify-content: space-between;
 }
 
-.recents {
-    font-size: 10px;
-    margin: 0px 12px 10px;
-    color: #ffa486bd;
+.chat-content {
+    display: inline-flex;
+    justify-content: space-around;
+    align-items: center;
+    height: 50px;
+    width: 100%;
+    border-width: 1px;
+    border-top-style: solid;
+    border-top-color: #b51a2b;
+    border-radius: 5px;
+}
+
+.menuSelect {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 100%;
+    color: #1f86c7;
+    font-size: 13px;
+    font-weight: bold;
+    border-bottom-width: 3.5px;
+    border-bottom-style: solid;
+    border-bottom-color: transparent
+}
+.menuSelect:first-child {
+    border-bottom-color: #b51a2b;
+}
+.menuSelect:hover {
+    background-color: #7fd8e2;
+    border-top-left-radius: 5px;
+    border-top-right-radius: 5px;
+}
+
+#menuSelected {
+    overflow-y: auto;
+    /* height: inherit; */
+    border-bottom-width: 1px;
+    border-bottom-style: solid;
+    border-bottom-color: #b51a2b;
+    border-bottom-left-radius: 5px;
+    border-bottom-right-radius: 5px;
 }
 
 .chat-history {
+    background-color: #95dfd7;
     border-width: 1px;
     border-style: solid;
     border-color: transparent;
-    border-top-color: #b51a2b;
-    /* Define a cor da borda inferior */
+    border-top-color: #b51a2b; /* Define a cor da borda inferior */
     /* border-radius: 5px; */
-    height: inherit;
+    /* height: inherit; */
+    /* height: 89vh; */
+    height: 78vh;
     overflow-y: auto;
     overflow-x: hidden;
 }
@@ -226,6 +266,35 @@ body {
     .chat-log {
         scrollbar-width: thin;
     }
+}
+
+.chat-config {
+    display: none;
+    padding: 10px;
+    font-size: 11px;
+    background-color: #95dfd7;
+    border-top-width: 1px;
+    border-top-style: solid;
+    border-top-color: #b51a2b;
+    height: 78vh;
+}
+
+#logoChat {
+    background-image: url("../../path/logo/ChatTextPT.png");
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: 120px;
+    image-rendering: auto;
+    display: block;
+    position: absolute;
+    width: 227px;
+    height: 100px;
+    margin-left: 0;
+    margin-right: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: -1;
 }
 
 .chat-info {
@@ -452,21 +521,21 @@ body {
     word-wrap: break-word;
 }
 
-.scrollDown{
+.scrollDown {
     background-image: url('./../../path/icons/scrollDown.png');
     background-repeat: no-repeat;
     background-position: center;
     background-size: 25px;
     display: block;
-    position: sticky;
+    position: relative;
     margin-left: auto;
     margin-right: auto;
     left: 0;
     right: 0;
-    bottom: 0;
+    bottom: 75px;
     height: 21px;
     width: 21px;
-    z-index: 1;
+    z-index: 5;
     border-radius: 5px;
     border: 1px solid #0b3367;
     background-color: #4da9c3;
@@ -478,7 +547,7 @@ body {
     opacity: 0; /* Define a opacidade para 0 quando o botão estiver oculto */
     pointer-events: none; /* Desabilita eventos de clique quando o botão estiver oculto */
 }
-.scrollDown:active{
+.scrollDown:active {
     border: 1px solid #65cfef;
 }
 
@@ -544,6 +613,18 @@ body.dark-mode {
     color: #000103;
 }
 .dark-mode .chat-saves {
+    background-color: #151a2c;
+}
+.dark-mode .menuSelect {
+    color: #ffa586;
+}
+.dark-mode .menuSelect:hover {
+    background-color: #1b2237;
+}
+.dark-mode .chat-history {
+    background-color: #151a2c;
+}
+.dark-mode .chat-config {
     background-color: #151a2c;
 }
 .dark-mode .chat-log {
