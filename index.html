@@ -56,7 +56,28 @@
                     </div>
                     <div id="menuSelected">
                         <div class="chat-history"></div>
-                        <div class="chat-config" style="display: none"></div>
+                        <div class="chat-config" style="display: none">
+                            <div class="config-option">
+                                <p class="type-config">Configurações de Layout</p>
+                                <div class="check-config">
+                                    <input type="checkbox" id="darkMode">
+                                    <label for="darkMode">Modo Claro/Noturno</label>                                    
+                                </div>
+                                <div class="check-config">
+                                    <input type="checkbox" id="setting">
+                                    <label for="setting">Ocultar informações do layout</label>
+                                </div>
+                                <div class="del-config">
+                                    <p>Limpar todas as conversas</p>
+                                    <button id="deleteChat" aria-haspopup="dialog">Limpar</button>
+                                    <dialog>
+                                        <p>Você tem certeza que deseja limpar todas as conversas? Esta ação não pode ser desfeita e as conversas apagadas não podem ser recuperadas.</p>
+                                        <button class="cancelButton">Cancelar</button>
+                                        <button class="confirmButton">Confirmar</button>
+                                    </dialog>
+                                </div>
+                            </div>
+                        </div>
                         <span id="logoChat" title="Chat de Texto em Português" onclick="location.reload();"></span>
                     </div>
                 </div>

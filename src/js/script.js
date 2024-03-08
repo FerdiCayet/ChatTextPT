@@ -8,6 +8,12 @@ const chatContent = document.querySelector('.chat-content');
 const chatSaves = document.querySelector('.chat-saves');
 const chatHistoryContainer = document.querySelector('.chat-history');
 const chatConfig = document.querySelector('.chat-config');
+const darkMode = document.getElementById('darkMode');
+const checkBox = document.getElementById("setting");
+const deleteButton = document.getElementById('deleteChat');
+const dialog = document.querySelector('dialog');
+const cancelButton = dialog.querySelector('.cancelButton');
+const confirmButton = dialog.querySelector('.confirmButton');
 const chatPage = document.querySelector('.chat-container');
 const chatStart = document.querySelector('.chat-start')
 const chatLog = document.getElementById('chat-log');
@@ -101,13 +107,18 @@ const isDarkMode = () => body.classList.contains('dark-mode');
 function toggleDarkMode() {
     if (isDarkMode()) {
         body.classList.remove('dark-mode');
+        darkMode.checked = false;
     } else {
         body.classList.add('dark-mode');
+        darkMode.checked = true;
     }
 }
 
 // Adicione um ouvinte de evento para alternar o modo escuro/luz quando o botão é clicado
 toggleButton.addEventListener('click', toggleDarkMode);
+
+// Evento para alternar o modo escuro/luz quando o checkbox é clicado
+darkMode.addEventListener('click', toggleDarkMode);
 
 // Função para rolar para o final da página quando o ícone de rolagem é clicado
 iconScroll.addEventListener('click', () => {
@@ -160,6 +171,69 @@ chatContent.addEventListener('click', (e) => {
             document.querySelector('.menuSelect:last-child').style.borderBottomColor = '#b51a2b';
         }
     }
+});
+
+// Atualize o estado do checkbox quando o rótulo é clicado
+document.querySelector("label[for='setting']").addEventListener("click", () => {
+    checkBox.checked = checkBox.checked; // Inverte o estado do checkbox
+    applyStyles(checkBox.checked);
+});
+
+// Evento para mudanças no estado do checkbox
+checkBox.addEventListener("change", (e) => {
+    const isChecked = e.target.checked;
+    applyStyles(isChecked);
+});
+
+// Função para aplicar estilos com base no estado do checkbox
+function applyStyles(isChecked) {
+    if (isChecked) {
+        document.querySelector('.introd-container').style.display = "none";
+        document.querySelector('.info-container section').style.display = "none";
+        document.querySelector('.menu-button').style.position = "absolute";
+        document.querySelector('.menu-button').style.top = "10px";
+        document.querySelector('.menu-button').style.bottom = "initial";
+        document.querySelector('.menu-button').style.height = "35px";
+        document.getElementById('toggle-mode').style.top = '4px';
+        document.getElementById('toggle-mode').style.zIndex = '4';
+        document.getElementById('chat-log').style.zIndex = '5';
+        document.querySelector('#toggle-mode span').style.width = '40px';
+        document.querySelector('#toggle-mode span').style.height = '40px';
+    } else {
+        // Se o checkbox não estiver marcado, redefina as propriedades CSS
+        document.querySelector('.introd-container').style.display = "";
+        document.querySelector('.info-container section').style.display = "";
+        document.querySelector('.menu-button').style.position = "";
+        document.querySelector('.menu-button').style.top = "";
+        document.querySelector('.menu-button').style.bottom = "";
+        document.querySelector('.menu-button').style.height = "";
+        document.getElementById('toggle-mode').style.top = '';
+        document.getElementById('toggle-mode').style.zIndex = '';
+        document.getElementById('chat-log').style.zIndex = '';
+        document.querySelector('#toggle-mode span').style.width = '';
+        document.querySelector('#toggle-mode span').style.height = '';
+    }
+}
+
+// Evento de clique ao botão de exclusão
+deleteButton.addEventListener('click', () => {
+    dialog.showModal(); // Mostrar o diálogo ao clicar no botão de exclusão
+});
+
+// Evento de clique ao botão de cancelar
+cancelButton.addEventListener('click', () => {
+    dialog.close(); // Fechar o diálogo ao clicar no botão de cancelar
+});
+
+// Evento de clique ao botão de confirmar
+confirmButton.addEventListener('click', () => {
+    
+    chatHistoryContainer.innerHTML = '';
+    userText.value = '';
+
+    createNewChat();
+
+    dialog.close(); // Fechar o diálogo após confirmar a exclusão
 });
 
 // Função para verificar se o usuário está no final do chat
