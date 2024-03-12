@@ -65,7 +65,7 @@
                                 </div>
                                 <div class="check-config">
                                     <input type="checkbox" id="setting">
-                                    <label for="setting">Ocultar informações do layout</label>
+                                    <label for="setting">Ocultar informações do container</label>
                                 </div>
                                 <div class="del-config">
                                     <p>Limpar todas as conversas</p>
@@ -76,6 +76,40 @@
                                         <button class="confirmButton">Confirmar</button>
                                     </dialog>
                                 </div>
+                            </div>
+                            <div class="config-option">
+                                <p class="type-config">Configurações do Prompt do Chat</p>
+                                <div class="check-config">
+                                    <input type="checkbox" id="promptMode" checked>
+                                    <label for="promptMode" title="Utiliza o prompt padrão para interações no chat.">Prompt padrão do chat</label>
+                                </div>
+                                <div class="grup-radio">
+                                    <div class="radio-config">
+                                        <input type="radio" id="hightQuality" name="promptQuality">
+                                        <label for="hightQuality" title="Receberá sugestões detalhadas para aprimorar o texto.">Ativar prompt de alta qualidade</label>
+                                    </div>
+                                    <div class="radio-config">
+                                        <input type="radio" id="lowQuality" name="promptQuality">
+                                        <label for="lowQuality" title="Receberá sugestões básicas para melhorar o texto.">Ativar prompt de baixa qualidade</label>
+                                    </div>
+                                </div>
+                                <div class="grup-radio">
+                                    <div class="radio-config">
+                                        <input type="radio" id="withoutModel" name="promptType" value="disabled">
+                                        <label for="withoutModel" title="Desativa as sugestões baseadas em modelos.">Desativar prompt dos modelos</label>
+                                    </div>
+                                    <div class="radio-config">
+                                        <input type="radio" id="emailModel" name="promptType">
+                                        <label for="emailModel" title="Receberá sugestões formatadas como e-mails.">Ativar prompt com modelo de e-mail</label>
+                                    </div>
+                                    <div class="radio-config">
+                                        <input type="radio" id="chatModel" name="promptType">
+                                        <label for="chatModel" title="Receberá sugestões formatadas como mensagens de chat.">Ativar prompt com modelo de chat</label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="promptInfo">
+                                <p>Receberá correções e sugestões para aprimorar o texto fornecido.</p>
                             </div>
                         </div>
                         <span id="logoChat" title="Chat de Texto em Português" onclick="location.reload();"></span>

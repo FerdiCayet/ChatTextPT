@@ -14,6 +14,9 @@ const deleteButton = document.getElementById('deleteChat');
 const dialog = document.querySelector('dialog');
 const cancelButton = dialog.querySelector('.cancelButton');
 const confirmButton = dialog.querySelector('.confirmButton');
+const promptModeCheckbox = document.getElementById('promptMode');
+const radioConfigs = document.querySelectorAll('.radio-config input[type="radio"]');
+const pInfo = document.querySelector('.promptInfo p');
 const chatPage = document.querySelector('.chat-container');
 const chatStart = document.querySelector('.chat-start')
 const chatLog = document.getElementById('chat-log');
@@ -36,6 +39,7 @@ let activeOption = null; // Inicializa uma variável para armazenar a opção at
 let existingChat = true; // Inicializa uma variável para controlar se há um chat existente.
 let scrollDownButton; // Declara uma variável para o botão de rolagem.
 let int = 1; // Inicializa uma variável para controlar um contador
+let promptValue = ''; //Inicializa uma variável para controlar o prompt, como uma string vazia.
 
 // Define o valor inicial do campo de texto do usuário como uma string vazia
 userText.value = '';
@@ -190,10 +194,12 @@ function applyStyles(isChecked) {
     if (isChecked) {
         document.querySelector('.introd-container').style.display = "none";
         document.querySelector('.info-container section').style.display = "none";
+        document.querySelector('.chat-saves').style.zIndex = '6';
         document.querySelector('.menu-button').style.position = "absolute";
         document.querySelector('.menu-button').style.top = "10px";
         document.querySelector('.menu-button').style.bottom = "initial";
         document.querySelector('.menu-button').style.height = "35px";
+        document.querySelector('.menu-button').style.zIndex = '7';
         document.getElementById('toggle-mode').style.top = '4px';
         document.getElementById('toggle-mode').style.zIndex = '4';
         document.getElementById('chat-log').style.zIndex = '5';
@@ -235,6 +241,82 @@ confirmButton.addEventListener('click', () => {
 
     dialog.close(); // Fechar o diálogo após confirmar a exclusão
 });
+
+// Definindo os valores dos radio buttons
+const values = ['alta', 'baixa', 'disabled', 'email', 'chat'];
+radioConfigs.forEach((radio, index) => {
+    radio.value = values[index];
+});
+
+// Função para desabilitar ou habilitar os radio buttons
+function toggleRadioButtons(disabled) {
+    radioConfigs.forEach(radio => {
+        radio.disabled = disabled;
+    });
+
+    pInfo.innerText = 'Receberá correções e sugestões para aprimorar o texto fornecido.';
+}
+
+// Verifique o estado inicial do promptModeCheckbox
+toggleRadioButtons(promptModeCheckbox.checked);
+
+// Adicione um ouvinte de evento para o promptModeCheckbox
+promptModeCheckbox.addEventListener('change', function() {
+    // Verificando se o checkbox está marcado
+    if (this.checked) {
+        toggleRadioButtons(true); // Desabilita os radio buttons
+    } else {
+        toggleRadioButtons(false); // Habilita os radio buttons
+    }
+});
+
+
+// Adicione um evento de change para cada radio button
+radioConfigs.forEach(radioButton => {
+    radioButton.addEventListener('change', () => {        
+        const promptQualityRadio = document.querySelector('input[name="promptQuality"]:checked');
+        const promptTypeRadio = document.querySelector('input[name="promptType"]:checked');
+
+        // Função para atualizar a mensagem de informação
+        const updateInfoMessage = () => {
+            if (promptQualityRadio.value === 'alta') {
+                pInfo.innerText = `Você receberá sugestões detalhadas e personalizadas para melhorar a qualidade do texto fornecido, destacando suas características ${promptQualityRadio.value}s.`;
+            } else {
+                pInfo.innerText = `Você receberá sugestões básicas para melhorar a qualidade do texto fornecido, destacando suas características ${promptQualityRadio.value}s.`;
+            }
+        };
+
+        // Verificando se o radio button está selecionado e se o checkBox 'withoutModel' está marcado
+        if (radioButton.checked && document.getElementById('withoutModel').checked) {
+            // Verificando se o radio button pertence à categoria 'promptQuality'
+            if (promptQualityRadio.checked) {
+                promptValue = promptQualityRadio.value;
+                updateInfoMessage();
+            }
+        } else {
+            // Verificando se os radio buttons 'promptQuality' e 'promptType' estão marcados
+            if (promptQualityRadio && promptTypeRadio) {
+                const quality = promptQualityRadio.value;
+                const type = promptTypeRadio.value;
+
+                promptValue = quality +' e '+ type;
+                
+                let message = `Você receberá sugestões abrangentes e específicas para aprimorar a qualidade do texto, adaptadas para uma ${quality} qualidade e com um formato de ${type} adequado às suas necessidades.`;
+                pInfo.innerText = message;
+            }else{
+                pInfo.innerText = 'Por favor, selecione um tipo de prompt adicional para receber sugestões específicas.';
+            }
+        }
+        // Atualizando o valor do prompt com base na seleção
+        updatePromptValue(promptValue);
+    });
+});
+
+// Função para atualizar o valor do prompt
+function updatePromptValue(value) {
+    // Aqui você pode implementar a lógica para atualizar o valor do prompt com o valor recebido
+    console.log('Valor do prompt atualizado:', value);
+}
 
 // Função para verificar se o usuário está no final do chat
 function isUserAtBottom() {
