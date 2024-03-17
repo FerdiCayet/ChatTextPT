@@ -177,6 +177,19 @@ chatContent.addEventListener('click', (e) => {
     }
 });
 
+checkBoxStatus();
+
+// Função para verificar e definir o estado inicial do checkbox com base no valor armazenado no localStorage
+function checkBoxStatus() {
+    const getStatus = localStorage.getItem('checkBoxState');
+    const isChecked = getStatus === "true";
+
+    // Aplica os estilos e define o estado do checkbox de acordo com o valor obtido
+    applyStyles(isChecked);
+    checkBox.checked = isChecked;
+}
+
+
 // Atualize o estado do checkbox quando o rótulo é clicado
 document.querySelector("label[for='setting']").addEventListener("click", () => {
     checkBox.checked = checkBox.checked; // Inverte o estado do checkbox
@@ -207,12 +220,13 @@ function applyStyles(isChecked) {
         document.querySelector('#toggle-mode span').style.height = '40px';
     } else {
         // Se o checkbox não estiver marcado, redefina as propriedades CSS
-        document.querySelector('.introd-container').style.display = "";
-        document.querySelector('.info-container section').style.display = "";
-        document.querySelector('.menu-button').style.position = "";
-        document.querySelector('.menu-button').style.top = "";
-        document.querySelector('.menu-button').style.bottom = "";
-        document.querySelector('.menu-button').style.height = "";
+        document.querySelector('.introd-container').style.display = '';
+        document.querySelector('.info-container section').style.display = '';
+        document.querySelector('.chat-saves').style.zIndex = '';
+        document.querySelector('.menu-button').style.position = '';
+        document.querySelector('.menu-button').style.top = '';
+        document.querySelector('.menu-button').style.bottom = '';
+        document.querySelector('.menu-button').style.height = '';
         document.getElementById('toggle-mode').style.top = '';
         document.getElementById('toggle-mode').style.zIndex = '';
         document.getElementById('chat-log').style.zIndex = '';
@@ -255,6 +269,7 @@ function toggleRadioButtons(disabled) {
     });
 
     pInfo.innerText = 'Receberá correções e sugestões para aprimorar o texto fornecido.';
+    promptValue = '';
 }
 
 // Verifique o estado inicial do promptModeCheckbox
@@ -305,6 +320,7 @@ radioConfigs.forEach(radioButton => {
                 pInfo.innerText = message;
             }else{
                 pInfo.innerText = 'Por favor, selecione um tipo de prompt adicional para receber sugestões específicas.';
+                promptValue = '';
             }
         }
         // Atualizando o valor do prompt com base na seleção
@@ -314,8 +330,23 @@ radioConfigs.forEach(radioButton => {
 
 // Função para atualizar o valor do prompt
 function updatePromptValue(value) {
-    // Aqui você pode implementar a lógica para atualizar o valor do prompt com o valor recebido
-    console.log('Valor do prompt atualizado:', value);
+    let prompt = '';
+
+    if(value === 'alta'){
+        prompt = 'Por favor, gere uma melhoria para o seguinte texto em português com alta qualidade, mantendo sua qualidade e coerência. Apenas forneça o texto corrigido e evite fornecer explicações sobre as correções realizadas:\n';
+    }else if(value === 'baixa'){
+        prompt = 'Poderia melhorar o texto em português a seguir? Apenas forneça o texto corrigido e evite fornecer explicações sobre as correções realizadas:\n';
+    }else if(value === 'alta e email'){
+        prompt = 'Por gentileza, elabore uma versão melhorada do seguinte texto em português, com alta qualidade e tom formal, no formato de e-mail, mantendo sua coerência. Por favor, forneça apenas o texto corrigido, evitando explicações sobre as correções realizadas, assim como observações e sugestões adicionais:\n';
+    }else if(value === 'alta e chat'){
+        prompt = 'Por favor, gere uma melhoria para o seguinte texto em português no formato de chat, mantendo sua qualidade e coerência. Apenas forneça o texto corrigido e evite fornecer explicações sobre as correções realizadas:\n';
+    }else if(value === 'baixa e email'){
+        prompt = 'Por gentileza, elabore uma versão melhorada do seguinte texto em português, com baixa qualidade e tom informal, no formato de e-mail, mantendo sua coerência. Por favor, forneça apenas o texto corrigido, evitando explicações sobre as correções realizadas, assim como observações e sugestões adicionais:\n';
+    }else if(value === 'baixa e chat'){
+        prompt = 'Por favor, revise e melhore o texto em português no formato de chat, mantendo sua qualidade e significado original. Evite fornecer explicações sobre as correções realizadas:\n';        
+    }
+
+    promptValue = prompt;
 }
 
 // Função para verificar se o usuário está no final do chat
@@ -461,10 +492,10 @@ function sendMessage() {
         appendMessage('user', userMessage); // A mensagem do usuário é adicionada ao registro de mensagens com a função appendMessage()
         
         // Enviar a mensagem para o chatbot e processar a resposta
-        sendToChatBot(userMessage)
+        sendToChatBot(userMessage, promptValue)
             .then(botResponse => {
                 // Marcar que não há mais uma conversa existente, pois uma nova mensagem foi enviada pelo usuário
-                existingChat = false; 
+                existingChat = false;
                 // Adicionar a mensagem do bot ao registro de mensagens
                 appendMessage('bot', botResponse);
             })
@@ -487,8 +518,17 @@ function addTextAnimated(element, text, speed, callback) {
 
     function type() {
         if (i < text.length) {
-            element.textContent += text.charAt(i);
-            i++;
+            // Verifica se o próximo caractere é uma quebra de linha HTML
+            if (text.substr(i, 4) === '<br>') {
+                // Substitui a quebra de linha HTML por uma quebra de linha no elemento
+                element.innerHTML += '<br>';
+                // Pula para o próximo caractere após a quebra de linha HTML
+                i += 4;
+            } else {
+                // Adiciona o próximo caractere normalmente
+                element.innerHTML += text.charAt(i);
+                i++;
+            }
             setTimeout(type, speed);
         } else {
             // Chamada à função de callback quando a digitação terminar
@@ -497,7 +537,6 @@ function addTextAnimated(element, text, speed, callback) {
             }
         }
     }
-
     type();
 }
 
@@ -657,7 +696,7 @@ chatOptions.forEach((option) => {
 });
 
 // Função assíncrona para enviar mensagem ao chatbot
-async function sendToChatBot(message) {
+async function sendToChatBot(message, prompt) {
     try {
         // Envia uma solicitação HTTP POST para o endpoint do chatbot
         const response = await fetch('http://localhost:3000/api/chat', {
@@ -665,7 +704,7 @@ async function sendToChatBot(message) {
             headers: {
                 'Content-Type': 'application/json', // Define o tipo de conteúdo como JSON
             },
-            body: JSON.stringify({ message }), // Envia a mensagem no corpo da solicitação em formato JSON
+            body: JSON.stringify({ message, prompt }), // Envia a mensagem e o prompt no corpo da solicitação em formato JSON
         });
 
         // Aguarda a resposta da solicitação HTTP e a converte para JSON
