@@ -27,12 +27,24 @@ const sendButton = document.getElementById('send-button');
 const chatOptions  = document.querySelectorAll('.chat-option');
 const chatNewButton = document.querySelector('#start-chat');
 
+// Seleciona o elemento <body> do documento HTML
+const body = document.body;
+
 // Configura consultas de mídia para diferentes tamanhos de tela
 const desktopScreen = window.matchMedia("(max-width: 1110px)"); // Configura uma consulta de mídia para telas de desktop.
 const mobileScreen = window.matchMedia("(max-width: 700px)"); // Configura uma consulta de mídia para telas de dispositivos móveis.
 
-// Seleciona o elemento <body> do documento HTML
-const body = document.body;
+// Carrega os chats salvos do localStorage, ou cria um novo array vazio se não houver nenhum
+let savedChats = JSON.parse(localStorage.getItem("savedChats")) || [];
+
+// Define o índice do chat atual como o comprimento do array de chats salvos, ou 0 se não houver chats salvos ainda
+let currentChatIndex = savedChats.length || 0;
+
+// Verifica se o modo escuro está habilitado no localStorage, comparando o valor armazenado com 'enabled'
+const isDarkMode = localStorage.getItem('darkMode') === 'enabled';
+
+// Verifica se a caixa de seleção está marcada no localStorage, comparando o valor armazenado com 'true'
+const isChecked = localStorage.getItem('isCheckboxChecked') === 'true';
 
 // Inicializa variáveis para controlar o estado da aplicação
 let activeOption = null; // Inicializa uma variável para armazenar a opção ativa.
@@ -50,13 +62,16 @@ document.addEventListener('DOMContentLoaded', () => {
     // Chamar a função de ajuste inicialmente para configurar corretamente a tela
     handleSizeWidth();
 
+    // Chamar a função para carregar os chats salvos no contêiner
+    updateChatList();
+
     // Array com os textos dos parágrafos
     const paragrafos = [
         'Bem-vindo ao ChatTextPT - Correção Inteligente de Textos em Português',
-        'O ChatTextPT é uma ferramenta de Inteligência Artificial desenvolvida para corrigir erros de português, incluindo gramática, ortografia, acentuação e outros aspectos. Se o português não é sua língua materna, estamos aqui para ajudar a aprimorá-lo e aprimorar sua comunicação escrita de maneira natural e fluente.',
-        'O nome "ChatTextPT" é uma combinação de "Chat" (conversa) e "Text" (texto), refletindo nossa missão de oferecer uma plataforma de conversação dedicada à melhoria da escrita em português. Nossa ferramenta é projetada para fornecer correções e sugestões linguísticas, visando elevar a qualidade dos textos em português dos usuários.',
-        'Nossa plataforma oferece uma interface amigável e responsiva, adaptando-se a diferentes dispositivos e tamanhos de tela. Apresentamos um menu em formato de hambúrguer para fácil acesso à lista de conversas e outras funcionalidades.',
-        'Basta inserir seu texto na entrada de input e aguardar a resposta do ChatTextPT. Você receberá sugestões de melhoria para o texto fornecido e poderá facilmente aplicá-las, copiar o texto corrigido ou continuar a conversa. Além disso, proporcionamos a flexibilidade de alternar entre os modos claro e noturno para uma experiência visual confortável em qualquer ambiente.',
+        'O ChatTextPT é uma ferramenta de Inteligência Artificial desenvolvida para corrigir erros de português, incluindo gramática, ortografia, acentuação e outros aspectos. Se o português não é sua língua materna, estamos aqui para ajudar a aprimorá-lo e melhorar sua comunicação escrita de forma natural e fluente.',
+        'O nome "ChatTextPT" é uma fusão de "Chat" (conversa) e "Text" (texto), refletindo nossa missão de oferecer uma plataforma de conversação dedicada à melhoria da escrita em português. Nossa ferramenta é projetada para fornecer correções e sugestões linguísticas, visando elevar a qualidade dos textos em português dos usuários.',
+        'Nossa plataforma apresenta uma interface intuitiva e adaptável, que se ajusta perfeitamente a uma variedade de dispositivos e tamanhos de tela. Com facilidade, você pode acessar suas conversas e personalizar a interface de acordo com suas preferências individuais. Localizado abaixo do botão "Iniciar novo chat", o menu oferece acesso rápido às funcionalidades essenciais. Ao clicar em "Conversas", você pode gerenciar suas interações anteriores, enquanto "Configuração" permite ajustar o layout da interface do usuário. Aqui, você pode personalizar o prompt usando checkboxes, assim como alternar entre os modos claro e escuro e focar exclusivamente no chatbot na interface, entre outras opções disponíveis.',
+        'Basta inserir seu texto na entrada de input e aguardar a resposta do ChatTextPT. Você receberá sugestões de melhoria para o texto fornecido e poderá facilmente aplicá-las, copiar o texto corrigido ou continuar a conversa.',
         'Valorizamos sua privacidade e segurança. Todas as conversas são automaticamente salvas no seu dispositivo local, sem armazenamento em servidores externos. Você também pode acessar facilmente o histórico de conversas anteriores e gerenciar suas conversas conforme necessário.',
         'No ChatTextPT, aprimorar seus textos em português é simples, eficaz e personalizado. Experimente agora e transforme suas palavras!'
     ];
@@ -104,17 +119,60 @@ function typeWriter(element, text, speed, callback) {
     type();
 }
 
-// Verifique o estado atual do modo (por exemplo, se o usuário preferiu o modo escuro anteriormente)
-const isDarkMode = () => body.classList.contains('dark-mode');
+// Função para atualizar a lista de chats no histórico de conversas, exibindo os chats salvos e adicionando eventos de clique para opções de chat.
+function updateChatList() {
+    // Recupera o histórico de conversas armazenado no localStorage
+    const storedChatHistory = localStorage.getItem('chatHistory');
+
+    // Verifica se há histórico de conversas armazenado
+    if (storedChatHistory) {
+        chatHistoryContainer.innerHTML = storedChatHistory;
+
+        // Adiciona eventos de clique para opções de chat
+        const chatInfos = chatHistoryContainer.querySelectorAll('.chat-info');
+        chatInfos.forEach(chatInfo => {
+            chatInfo.addEventListener('click', (e) => {
+                handleChatLoading(e);
+            });
+
+            const option = chatInfo.querySelector('.chat-option');
+            if (option) {
+                option.addEventListener('click', handleChatOptionClick);
+            }
+        });
+    }
+}
+
+// Função para manipular o carregamento de um chat histórico quando o usuário clica nele, carregando o chat selecionado no contêiner de chat e exibindo suas mensagens.
+function handleChatLoading(e){
+    const chatInfo = e.currentTarget;
+    chatLog.innerHTML = '';
+    appendMessage('bot', 'Olá! Como posso ajudar?');
+    currentChatIndex = chatInfo.slot;
+
+    // Verifica se existem mensagens salvas para o chat clicado e as exibe
+    if (savedChats[chatInfo.slot]) {
+        int = 0;
+        savedChats[chatInfo.slot].forEach(message => appendMessage(message.type, message.message));
+    }
+}
+
+// Defina o estado inicial com base na preferência do usuário
+if (isDarkMode) {
+    darkMode.checked = true;
+    body.classList.add('dark-mode');
+}
 
 // Função para ativar/desativar o modo escuro
 function toggleDarkMode() {
-    if (isDarkMode()) {
+    if (body.classList.contains('dark-mode')) {
         body.classList.remove('dark-mode');
         darkMode.checked = false;
+        localStorage.setItem('darkMode', 'disabled');
     } else {
         body.classList.add('dark-mode');
         darkMode.checked = true;
+        localStorage.setItem('darkMode', 'enabled');
     }
 }
 
@@ -138,14 +196,18 @@ chatNewButton.addEventListener('click', createNewChat);
 
 // Função para criar um novo chat
 function createNewChat() {
-    // Limpar o log de conversa ao criar um novo chat
-    chatLog.innerHTML = '';
+    currentChatIndex = savedChats.length;
+    if (savedChats[currentChatIndex]) {
+        savedChats[currentChatIndex].forEach(message => appendMessage(message.type, message.message));
+    }
 
-    // Exibir mensagens iniciais
-    appendMessage('bot', 'Olá! Como posso ajudar?');
-
-    // Redefinir o contador
     int = 1;
+    chatLog.innerHTML = '';
+    appendMessage('bot', 'Olá! Como posso ajudar?');
+    clearInputField();
+
+    // Salva o novo chat no LocalStorage
+    localStorage.setItem('savedChats', JSON.stringify(savedChats));
 }
 
 // Evento para abrir/fechar o menu lateral
@@ -177,41 +239,28 @@ chatContent.addEventListener('click', (e) => {
     }
 });
 
-checkBoxStatus();
-
-// Função para verificar e definir o estado inicial do checkbox com base no valor armazenado no localStorage
-function checkBoxStatus() {
-    const getStatus = localStorage.getItem('checkBoxState');
-    const isChecked = getStatus === "true";
-
-    // Aplica os estilos e define o estado do checkbox de acordo com o valor obtido
-    applyStyles(isChecked);
-    checkBox.checked = isChecked;
-}
-
-
-// Atualize o estado do checkbox quando o rótulo é clicado
-document.querySelector("label[for='setting']").addEventListener("click", () => {
-    checkBox.checked = checkBox.checked; // Inverte o estado do checkbox
-    applyStyles(checkBox.checked);
-});
+// Aplica os estilos e define o estado do checkbox de acordo com o valor obtido
+applyStyles(isChecked);
+checkBox.checked = isChecked;
 
 // Evento para mudanças no estado do checkbox
-checkBox.addEventListener("change", (e) => {
+checkBox.addEventListener('change', (e) => {
     const isChecked = e.target.checked;
     applyStyles(isChecked);
+    // Salva o estado atual do checkbox no localStorage
+    localStorage.setItem('isCheckboxChecked', isChecked);
 });
 
 // Função para aplicar estilos com base no estado do checkbox
 function applyStyles(isChecked) {
     if (isChecked) {
-        document.querySelector('.introd-container').style.display = "none";
-        document.querySelector('.info-container section').style.display = "none";
+        document.querySelector('.introd-container').style.display = 'none';
+        document.querySelector('.info-container section').style.display = 'none';
         document.querySelector('.chat-saves').style.zIndex = '6';
-        document.querySelector('.menu-button').style.position = "absolute";
-        document.querySelector('.menu-button').style.top = "10px";
-        document.querySelector('.menu-button').style.bottom = "initial";
-        document.querySelector('.menu-button').style.height = "35px";
+        document.querySelector('.menu-button').style.position = 'absolute';
+        document.querySelector('.menu-button').style.top = '10px';
+        document.querySelector('.menu-button').style.bottom = 'initial';
+        document.querySelector('.menu-button').style.height = '35px';
         document.querySelector('.menu-button').style.zIndex = '7';
         document.getElementById('toggle-mode').style.top = '4px';
         document.getElementById('toggle-mode').style.zIndex = '4';
@@ -247,11 +296,17 @@ cancelButton.addEventListener('click', () => {
 
 // Evento de clique ao botão de confirmar
 confirmButton.addEventListener('click', () => {
-    
+    // Limpa o histórico de conversas na interface do usuário
     chatHistoryContainer.innerHTML = '';
-    userText.value = '';
 
+    // Atualiza o histórico de conversas no armazenamento local
+    localStorage.setItem('chatHistory', chatHistoryContainer.innerHTML);
+
+    // Cria um novo chat vazio, removendo qualquer chat anteriormente salvos
     createNewChat();
+
+    // Remove completamente os chats salvos do armazenamento local
+    localStorage.removeItem("savedChats");
 
     dialog.close(); // Fechar o diálogo após confirmar a exclusão
 });
@@ -481,6 +536,13 @@ function handleInput() {
     sendButton.disabled = trimmedValue === '';
 }
 
+// Função para limpar o campo de entrada na interface do usuário
+function clearInputField() {
+    userText.value = ''; // Limpar o campo de entrada
+    sendButton.disabled = true; // Desabilitar o botão de envio
+    userText.focus(); // Colocar o foco de volta no campo de entrada
+}
+
 // Função para enviar uma mensagem
 function sendMessage() {
     // Obter o texto inserido pelo usuário e remover espaços em branco extras
@@ -498,18 +560,32 @@ function sendMessage() {
                 existingChat = false;
                 // Adicionar a mensagem do bot ao registro de mensagens
                 appendMessage('bot', botResponse);
+
+                // Salvar a mensagem do bot no histórico de conversas
+                savedChats[currentChatIndex] = savedChats[currentChatIndex] || [];
+                savedChats[currentChatIndex].push({ type: 'user', message: userMessage });
+                savedChats[currentChatIndex].push({ type: 'bot', message: botResponse });
+
+                // Atualizar o localStorage com o histórico de conversas atualizado
+                localStorage.setItem("savedChats", JSON.stringify(savedChats));
             })
             .catch(error => {
                 // Em caso de erro ao enviar ou receber a resposta do chatbot, exibir uma mensagem de erro
                 const errorMessage = 'Desculpe, ocorreu um erro ao se comunicar com o chatbot.';
                 appendMessage('bot', errorMessage);
                 console.error('Erro ao receber resposta do chatbot:', error);
-            });
+
+                // Salvar a mensagem de erro no histórico de conversas
+                savedChats[currentChatIndex] = savedChats[currentChatIndex] || [];
+                savedChats[currentChatIndex].push({ type: 'user', message: userMessage });
+                savedChats[currentChatIndex].push({ type: 'bot', message: errorMessage });
+
+                // Atualizar o localStorage com o histórico de conversas atualizado
+                localStorage.setItem("savedChats", JSON.stringify(savedChats));
+            });        
     }
 
-    userText.value = ''; // Limpar o campo de entrada
-    sendButton.disabled = true; // Desabilitar o botão de envio
-    userText.focus(); // Colocar o foco de volta no campo de entrada
+    clearInputField();
 }
 
 // Função para adicionar texto à mensagem de forma animada
@@ -640,7 +716,16 @@ function createChatInfo(message) {
     chatInfo.appendChild(chatName);
     chatInfo.appendChild(chatOption);
 
-    document.querySelector('.chat-history').appendChild(chatInfo);
+    chatHistoryContainer.appendChild(chatInfo);
+
+    chatInfo.addEventListener('click', (e) => {
+        handleChatLoading(e);
+    });
+    
+    chatInfo.slot = currentChatIndex;
+
+    // Adicione o código para salvar a informação no localStorage
+    localStorage.setItem('chatHistory', chatHistoryContainer.innerHTML);
 }
 
 // Função para criar a opção de exclusão ativa
@@ -669,9 +754,23 @@ function handleChatOptionClick(e) {
 
     optionActive.querySelector('span').addEventListener('click', () => {
         chatInfo.remove();
+        removeChatInfo(chatInfo.slot);
     });
 
     activeOption = clickedOption;
+}
+
+// Função para remover as informações de um chat específico
+function removeChatInfo(index) {
+    // Remove o chat correspondente do array de chats salvos
+    delete savedChats[index];
+
+    createNewChat();
+
+    // Atualiza o localStorage com o novo array de chats salvos
+    localStorage.setItem('savedChats', JSON.stringify(savedChats));
+    // Atualiza o histórico de conversas na interface do usuário com as alterações
+    localStorage.setItem('chatHistory', chatHistoryContainer.innerHTML);
 }
 
 // Evento para remover a opção ativa quando se clica fora dela
