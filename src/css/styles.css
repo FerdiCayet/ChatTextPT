@@ -31,11 +31,12 @@ body {
 }
 
 #logo {
-    background-image: url("../../path/logo/Logo.png");
+    background-image: url("../../images/logo/Logo.png");
     background-repeat: no-repeat;
     background-position: center;
     background-size: cover;
-    image-rendering: auto;
+    image-rendering: -webkit-optimize-contrast;
+    image-rendering: crisp-edges;
     display: block;
     position: absolute;
     width: 160px;
@@ -146,7 +147,7 @@ body {
 }
 #toggle-mode span {
     display: block;
-    background-image: url("./../../path/icons/darkMode.png");
+    background-image: url("./../../images/icons/darkMode.png");
     background-repeat: no-repeat;
     background-position: top;
     background-size: contain;
@@ -192,7 +193,6 @@ body {
     border-radius: 5px;
     flex-direction: column;
     z-index: 1;
-    transition: all 0.3s ease-in-out;
 }
 
 .chat-header {
@@ -237,7 +237,7 @@ body {
 
 #menuSelected {
     overflow-y: auto;
-    /* height: inherit; */
+    height: calc(84vh - 100px);
     border-bottom-width: 1px;
     border-bottom-style: solid;
     border-bottom-color: #b51a2b;
@@ -250,11 +250,8 @@ body {
     border-width: 1px;
     border-style: solid;
     border-color: transparent;
-    border-top-color: #b51a2b; /* Define a cor da borda inferior */
-    /* border-radius: 5px; */
-    /* height: inherit; */
-    /* height: 89vh; */
-    height: 78vh;
+    border-top-color: #b51a2b;
+    height: calc(83.9vh - 100px);
     overflow-y: auto;
     overflow-x: hidden;
 }
@@ -276,7 +273,6 @@ body {
     border-top-width: 1px;
     border-top-style: solid;
     border-top-color: #b51a2b;
-    height: 78vh;
 }
 
 .type-config {
@@ -403,11 +399,12 @@ body {
 }
 
 #logoChat {
-    background-image: url("../../path/logo/ChatTextPT.png");
+    background-image: url("../../images/logo/ChatTextPT.png");
     background-repeat: no-repeat;
     background-position: center;
     background-size: 120px;
-    image-rendering: auto;
+    image-rendering: -webkit-optimize-contrast;
+    image-rendering: crisp-edges;
     display: block;
     position: absolute;
     width: 227px;
@@ -453,7 +450,7 @@ body {
 
 .chat-option {
     background-color: #95dfd7;
-    background-image: url("./../../path/icons/menu.png");
+    background-image: url("./../../images/icons/menu.png");
     background-size: contain;
     background-repeat: no-repeat;
     display: block;
@@ -523,12 +520,13 @@ body {
     margin: 0px auto;
     max-width: 980px;
     height: -webkit-fill-available;
+    height: -moz-available;
 }
 
 .chat-log {
     background-color: #bf7e92c9;
     position: relative;
-    height: 93vh;
+    height: calc(100vh - 50px);
     overflow-y: auto;
     margin-bottom: 10px;
     padding: 10px;
@@ -561,7 +559,7 @@ body {
 
 .copyText {
     display: -webkit-inline-box;
-    background-image: url("./../../path/icons/copyText.png");
+    background-image: url("./../../images/icons/copyText.png");
     background-size: contain;
     background-repeat: no-repeat;
     height: 21px;
@@ -645,7 +643,7 @@ body {
 }
 
 .scrollDown {
-    background-image: url('./../../path/icons/scrollDown.png');
+    background-image: url('./../../images/icons/scrollDown.png');
     background-repeat: no-repeat;
     background-position: center;
     background-size: 25px;
@@ -729,7 +727,7 @@ body.dark-mode {
     background-color: #ffc7b9;
 }
 .dark-mode #toggle-mode span {
-    background-image: url("./../../path/icons/lightMode.png");
+    background-image: url("./../../images/icons/lightMode.png");
 }
 .dark-mode button {
     background-color: #ffa586;
@@ -808,7 +806,7 @@ body.dark-mode {
     background: #949ea8;
 }
 .dark-mode .copyText {
-    background-image: url("./../../path/icons/copyTextInDark.png");
+    background-image: url("./../../images/icons/copyTextDark.png");
 }
 .dark-mode .copyText.copied::after {
     background-color: #242f49;
@@ -824,7 +822,7 @@ body.dark-mode {
     color: #1b1b1b;
 }
 .dark-mode .scrollDown{
-    background-image: url('./../../path/icons/scrollDownDark.png');
+    background-image: url('./../../images/icons/scrollDownDark.png');
     border: 1px solid #b51a2b;
     background-color: #3f1622;
 }

@@ -6,7 +6,7 @@
         <meta name="author" content="Fernando Caetano">
         <meta name="description" content="Aprimore seus textos em português de forma fácil e adaptativa com o ChatTextPT. Digite seu texto na entrada, receba sugestões instantâneas e transforme sua comunicação de maneira eficiente. Experimente agora e eleve a qualidade das suas palavras com o ChatTextPT!">
         <meta name="theme-color" content="#B51A2B">
-        <link rel="icon" type="image/x-icon" href="./path/logo/favicon.ico">
+        <link rel="icon" type="image/x-icon" href="./images/logo/favicon.ico">
         <link rel="stylesheet" href="./src/css/styles.css">
         <noscript><link rel="stylesheet" href="./src/css/noScript.css"/></noscript>
         <title>ChatTextPT - Chat de Texto em Português</title>
@@ -49,71 +49,69 @@
                 <div class="chat-header">
                     <button id="start-chat">Iniciar novo chat</button>
                 </div>
-                <div class="menu-chat">
-                    <div class="chat-content">
-                        <div class="menuSelect" data-menu="conversas">Conversas</div>
-                        <div class="menuSelect" data-menu="configuracao">Configuração</div>
-                    </div>
-                    <div id="menuSelected">
-                        <div class="chat-history"></div>
-                        <div class="chat-config" style="display: none">
-                            <div class="config-option">
-                                <p class="type-config">Configurações de Layout</p>
-                                <div class="check-config">
-                                    <input type="checkbox" id="darkMode">
-                                    <label for="darkMode">Modo Claro/Noturno</label>                                    
-                                </div>
-                                <div class="check-config">
-                                    <input type="checkbox" id="setting">
-                                    <label for="setting">Ocultar informações do container</label>
-                                </div>
-                                <div class="del-config">
-                                    <p>Limpar todas as conversas</p>
-                                    <button id="deleteChat" aria-haspopup="dialog">Limpar</button>
-                                    <dialog>
-                                        <p>Você tem certeza que deseja limpar todas as conversas? Esta ação não pode ser desfeita e as conversas apagadas não podem ser recuperadas.</p>
-                                        <button class="cancelButton">Cancelar</button>
-                                        <button class="confirmButton">Confirmar</button>
-                                    </dialog>
-                                </div>
+                <div class="chat-content">
+                    <div class="menuSelect" data-menu="conversas">Conversas</div>
+                    <div class="menuSelect" data-menu="configuracao">Configuração</div>
+                </div>
+                <div id="menuSelected">
+                    <div class="chat-history"></div>
+                    <div class="chat-config" style="display: none">
+                        <div class="config-option">
+                            <p class="type-config">Configurações de Layout</p>
+                            <div class="check-config">
+                                <input type="checkbox" id="darkMode">
+                                <label for="darkMode">Modo Claro/Noturno</label>                                    
                             </div>
-                            <div class="config-option">
-                                <p class="type-config">Configurações do Prompt do Chat</p>
-                                <div class="check-config">
-                                    <input type="checkbox" id="promptMode" checked>
-                                    <label for="promptMode" title="Utiliza o prompt padrão para interações no chat.">Prompt padrão do chat</label>
-                                </div>
-                                <div class="grup-radio">
-                                    <div class="radio-config">
-                                        <input type="radio" id="hightQuality" name="promptQuality">
-                                        <label for="hightQuality" title="Receberá sugestões detalhadas para aprimorar o texto.">Ativar prompt de alta qualidade</label>
-                                    </div>
-                                    <div class="radio-config">
-                                        <input type="radio" id="lowQuality" name="promptQuality">
-                                        <label for="lowQuality" title="Receberá sugestões básicas para melhorar o texto.">Ativar prompt de baixa qualidade</label>
-                                    </div>
-                                </div>
-                                <div class="grup-radio">
-                                    <div class="radio-config">
-                                        <input type="radio" id="withoutModel" name="promptType" value="disabled">
-                                        <label for="withoutModel" title="Desativa as sugestões baseadas em modelos.">Desativar prompt dos modelos</label>
-                                    </div>
-                                    <div class="radio-config">
-                                        <input type="radio" id="emailModel" name="promptType">
-                                        <label for="emailModel" title="Receberá sugestões formatadas como e-mails.">Ativar prompt com modelo de e-mail</label>
-                                    </div>
-                                    <div class="radio-config">
-                                        <input type="radio" id="chatModel" name="promptType">
-                                        <label for="chatModel" title="Receberá sugestões formatadas como mensagens de chat.">Ativar prompt com modelo de chat</label>
-                                    </div>
-                                </div>
+                            <div class="check-config">
+                                <input type="checkbox" id="setting">
+                                <label for="setting">Ocultar informações do container</label>
                             </div>
-                            <div class="promptInfo">
-                                <p>Receberá correções e sugestões para aprimorar o texto fornecido.</p>
+                            <div class="del-config">
+                                <p>Limpar todas as conversas</p>
+                                <button id="deleteChat" aria-haspopup="dialog">Limpar</button>
+                                <dialog>
+                                    <p>Você tem certeza que deseja limpar todas as conversas? Esta ação não pode ser desfeita e as conversas apagadas não podem ser recuperadas.</p>
+                                    <button class="cancelButton">Cancelar</button>
+                                    <button class="confirmButton">Confirmar</button>
+                                </dialog>
                             </div>
                         </div>
-                        <span id="logoChat" title="Chat de Texto em Português" onclick="location.reload();"></span>
+                        <div class="config-option">
+                            <p class="type-config">Configurações do Prompt do Chat</p>
+                            <div class="check-config">
+                                <input type="checkbox" id="promptMode" checked>
+                                <label for="promptMode" title="Utiliza o prompt padrão para interações no chat.">Prompt padrão do chat</label>
+                            </div>
+                            <div class="grup-radio">
+                                <div class="radio-config">
+                                    <input type="radio" id="hightQuality" name="promptQuality">
+                                    <label for="hightQuality" title="Receberá sugestões detalhadas para aprimorar o texto.">Ativar prompt de alta qualidade</label>
+                                </div>
+                                <div class="radio-config">
+                                    <input type="radio" id="lowQuality" name="promptQuality">
+                                    <label for="lowQuality" title="Receberá sugestões básicas para melhorar o texto.">Ativar prompt de baixa qualidade</label>
+                                </div>
+                            </div>
+                            <div class="grup-radio">
+                                <div class="radio-config">
+                                    <input type="radio" id="withoutModel" name="promptType" value="disabled">
+                                    <label for="withoutModel" title="Desativa as sugestões baseadas em modelos.">Desativar prompt dos modelos</label>
+                                </div>
+                                <div class="radio-config">
+                                    <input type="radio" id="emailModel" name="promptType">
+                                    <label for="emailModel" title="Receberá sugestões formatadas como e-mails.">Ativar prompt com modelo de e-mail</label>
+                                </div>
+                                <div class="radio-config">
+                                    <input type="radio" id="chatModel" name="promptType">
+                                    <label for="chatModel" title="Receberá sugestões formatadas como mensagens de chat.">Ativar prompt com modelo de chat</label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="promptInfo">
+                            <p>Receberá correções e sugestões para aprimorar o texto fornecido.</p>
+                        </div>
                     </div>
+                    <span id="logoChat" title="Chat de Texto em Português" onclick="location.reload();"></span>
                 </div>
             </div>
             <div class="chat-container">

@@ -31,7 +31,7 @@ const chatNewButton = document.querySelector('#start-chat');
 const body = document.body;
 
 // Configura consultas de mídia para diferentes tamanhos de tela
-const desktopScreen = window.matchMedia("(max-width: 1110px)"); // Configura uma consulta de mídia para telas de desktop.
+const desktopScreen = window.matchMedia("(min-width: 701px) and (max-width: 1110px)"); // Configura uma consulta de mídia para telas de desktop.
 const mobileScreen = window.matchMedia("(max-width: 700px)"); // Configura uma consulta de mídia para telas de dispositivos móveis.
 
 // Carrega os chats salvos do localStorage, ou cria um novo array vazio se não houver nenhum
@@ -144,7 +144,7 @@ function updateChatList() {
 }
 
 // Função para manipular o carregamento de um chat histórico quando o usuário clica nele, carregando o chat selecionado no contêiner de chat e exibindo suas mensagens.
-function handleChatLoading(e){
+function handleChatLoading(e) {
     const chatInfo = e.currentTarget;
     chatLog.innerHTML = '';
     appendMessage('bot', 'Olá! Como posso ajudar?');
@@ -373,7 +373,7 @@ radioConfigs.forEach(radioButton => {
                 
                 let message = `Você receberá sugestões abrangentes e específicas para aprimorar a qualidade do texto, adaptadas para uma ${quality} qualidade e com um formato de ${type} adequado às suas necessidades.`;
                 pInfo.innerText = message;
-            }else{
+            } else {
                 pInfo.innerText = 'Por favor, selecione um tipo de prompt adicional para receber sugestões específicas.';
                 promptValue = '';
             }
@@ -387,17 +387,17 @@ radioConfigs.forEach(radioButton => {
 function updatePromptValue(value) {
     let prompt = '';
 
-    if(value === 'alta'){
+    if (value === 'alta') {
         prompt = 'Por favor, gere uma melhoria para o seguinte texto em português com alta qualidade, mantendo sua qualidade e coerência. Apenas forneça o texto corrigido e evite fornecer explicações sobre as correções realizadas:\n';
-    }else if(value === 'baixa'){
+    }else if (value === 'baixa') {
         prompt = 'Poderia melhorar o texto em português a seguir? Apenas forneça o texto corrigido e evite fornecer explicações sobre as correções realizadas:\n';
-    }else if(value === 'alta e email'){
+    }else if (value === 'alta e email') {
         prompt = 'Por gentileza, elabore uma versão melhorada do seguinte texto em português, com alta qualidade e tom formal, no formato de e-mail, mantendo sua coerência. Por favor, forneça apenas o texto corrigido, evitando explicações sobre as correções realizadas, assim como observações e sugestões adicionais:\n';
-    }else if(value === 'alta e chat'){
+    }else if (value === 'alta e chat') {
         prompt = 'Por favor, gere uma melhoria para o seguinte texto em português no formato de chat, mantendo sua qualidade e coerência. Apenas forneça o texto corrigido e evite fornecer explicações sobre as correções realizadas:\n';
-    }else if(value === 'baixa e email'){
+    }else if (value === 'baixa e email') {
         prompt = 'Por gentileza, elabore uma versão melhorada do seguinte texto em português, com baixa qualidade e tom informal, no formato de e-mail, mantendo sua coerência. Por favor, forneça apenas o texto corrigido, evitando explicações sobre as correções realizadas, assim como observações e sugestões adicionais:\n';
-    }else if(value === 'baixa e chat'){
+    }else if (value === 'baixa e chat') {
         prompt = 'Por favor, revise e melhore o texto em português no formato de chat, mantendo sua qualidade e significado original. Evite fornecer explicações sobre as correções realizadas:\n';        
     }
 
@@ -443,71 +443,71 @@ scrollDownButton.addEventListener('click', () => {
 });
 
 // Função para lidar com mudanças no tamanho da tela
-function handleSizeWidth(){
-    if(desktopScreen.matches){ // Verificando se a tela é de desktop
+function handleSizeWidth() {
+    if (desktopScreen.matches) { // Verificando se a tela é de desktop
         screenSizeDesktop(); // Chamando a função específica para tela de desktop
     }
-    if(mobileScreen.matches){ // Verificando se a tela é de celular
+    if (mobileScreen.matches) { // Verificando se a tela é de celular
         screenSizeMobile(); // Chamando a função específica para tela de celular
     }
 }
 
 // Função para ajustar elementos na tela de desktop
-function screenSizeDesktop(){
-    console.group('Ajustes para tela de desktop (Resolução de 1110px)');
-    if(chatSaves.style.position === 'absolute'){
-        if(desktopScreen.matches){
+function screenSizeDesktop() {
+    if (chatSaves.style.position === 'absolute') {
+        if (desktopScreen.matches) {
             chatPage.style.position = 'relative';
             chatLog.style.bottom = '-45px';
-            chatLog.style.height = '88vh';
+            chatLog.style.height = `calc(88vh - 10px)`;
             userInput.style.bottom = '-45px';
-            console.log('Ajustando elementos para tela de desktop - Posição absoluta');
-        }else{
+        } else {
             chatPage.style.position = 'relative';
-            chatLog.style.bottom = '0px';
-            chatLog.style.height = '93vh';
+            if (btnMenu.style.left === '180px') {
+                chatSaves.style.position = 'relative';
+            }
+            chatLog.style.bottom = '';
+            chatLog.style.height = '';
             userInput.style.bottom = '';
-            console.log('Ajustando elementos para tela de desktop - Posição relativa');
         }
-    }else{
-        // chatLog.style.bottom = '-45px'; //'0px';
-        // //chatLog.style.height = '90vh';
-        chatPage.style.position = 'relative';
-        console.log('Ajustando elementos para tela de desktop - Sem alterações na posição');
+    } else {
+        if (chatSaves.style.position === 'relative') {
+            if (desktopScreen.matches) {
+                chatLog.style.bottom = '-45px';
+                chatLog.style.height = `calc(88vh - 10px)`;
+                userInput.style.bottom = '-45px';
+            } else {
+                chatLog.style.bottom = '';
+                chatLog.style.height = '';
+                userInput.style.bottom = '';
+            }
+        }
     }
-    console.groupEnd();
 }
 
 // Função para ajustar elementos na tela de celular
-function screenSizeMobile(){
-    console.group('Ajustes para tela de celular (Resolução de 700px)');
-    if(chatSaves.style.position === 'relative'){
-        if(mobileScreen.matches){
+function screenSizeMobile() {
+    if (chatSaves.style.position === 'relative') {
+        if (mobileScreen.matches) {
             chatPage.style.position = 'absolute';
             chatLog.style.bottom = '-45px';
-            chatLog.style.height = '88vh';
+            chatLog.style.height = `calc(88vh - 10px)`;
             btnMenu.style.left = '11px';
             chatSaves.style.left = '-230px';
             userInput.style.bottom = '-45px';
-            console.log('Ajustando elementos para tela de celular - Posição relativa');
-        }else{
-            if(chatPage.style.position === 'absolute'){
-                chatLog.style.bottom = '0px';
-                chatLog.style.height = '93vh';
-            }
-            chatLog.style.height = '93vh';
+        } else {
+            chatPage.style.position = 'relative';
+            chatLog.style.bottom = '-45px';
+            chatLog.style.height = `calc(88vh - 10px)`;
             btnMenu.style.left = '180px';
             chatSaves.style.left = 'auto';
-            userInput.style.bottom = '';
-            console.log('Ajustando elementos para tela de celular - Posição absoluta');
+            userInput.style.bottom = '-45px';
         }
-    }else{
-        if(chatPage.style.position === 'absolute'){
-            chatPage.style.position = 'relative';
-            console.log('Ajustando elementos para tela de celular - Sem alterações na posição');
-        }
+    } else {
+        chatPage.style.position = 'relative';
+        chatLog.style.height = `calc(88vh - 10px)`;
+        chatLog.style.bottom = '-45px';
+        userInput.style.bottom = '-45px';
     }
-    console.groupEnd();
 }
 
 // Adicionando listeners para mudanças no tamanho da tela
@@ -797,14 +797,25 @@ chatOptions.forEach((option) => {
 // Função assíncrona para enviar mensagem ao chatbot
 async function sendToChatBot(message, prompt) {
     try {
+        // Verifica se estamos em desenvolvimento local
+        const isLocalhost = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1';
+
+        // Define a URL base para as requisições
+        const baseURL = isLocalhost ? 'http://localhost:3000' : `${window.location.protocol}//${window.location.hostname}`;
+
         // Envia uma solicitação HTTP POST para o endpoint do chatbot
-        const response = await fetch('http://localhost:3000/api/chat', {
+        const response = await fetch(`${baseURL}/api/chat`, {
             method: 'POST', // Método POST é usado para enviar dados ao servidor
             headers: {
                 'Content-Type': 'application/json', // Define o tipo de conteúdo como JSON
             },
             body: JSON.stringify({ message, prompt }), // Envia a mensagem e o prompt no corpo da solicitação em formato JSON
         });
+
+        // Verifica se a resposta está OK (status code 200-299)
+        if (!response.ok) {
+            throw new Error(`Erro na resposta do servidor: ${response.statusText}`);
+        }
 
         // Aguarda a resposta da solicitação HTTP e a converte para JSON
         const data = await response.json();
@@ -814,8 +825,29 @@ async function sendToChatBot(message, prompt) {
     } catch (error) {
         // Se ocorrer um erro durante o envio da mensagem para o chatbot, este bloco é executado
         console.error('Erro ao enviar mensagem para o chatbot:', error);
-        
+
         // Lança novamente o erro para que quem chamou a função possa lidar com ele
         throw error;
     }
 }
+
+// Chama a função para iniciar o servidor quando o script é carregado
+async function startServer() {
+    try {
+        const isLocalhost = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1';
+        const baseURL = isLocalhost ? 'http://localhost:3000' : `${window.location.protocol}//${window.location.hostname}`;
+        const response = await fetch(`${baseURL}/start-server`, { method: 'GET' });
+
+        if (!response.ok) {
+            throw new Error(`Erro na resposta do servidor: ${response.statusText}`);
+        }
+
+        const data = await response.json();
+        console.log(data.message);
+    } catch (error) {
+        console.error('Erro ao iniciar o servidor:', error);
+    }
+}
+
+// Inicia o servidor quando o script é carregado
+startServer();

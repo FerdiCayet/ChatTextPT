@@ -9,18 +9,27 @@ loadNodeFetch();
 const app = express();
 const port = process.env.PORT || 3000;
 
-app.use(cors());
+app.use(cors()); // Habilita CORS para todas as rotas
 app.use(express.json());
 
 // Verifique se a chave da API do Google Generative AI está definida
 const apiKey = process.env.GOOGLE_API_KEY;
-if(!apiKey) {
+if (!apiKey) {
     console.error('Chave da API do Google Generative AI não encontrada. Certifique-se de definir GOOGLE_API_KEY no arquivo .env');
     process.exit(1);
 }
 
 // Inicialize GoogleGenerativeAI com sua chave de API
 const genAI = new GoogleGenerativeAI(apiKey);
+
+app.get('/start-server', async (req, res) => {
+    try {
+        await startServer(); // Chama a função startServer
+        res.json({ message: 'Servidor iniciado com sucesso!' });
+    } catch (error) {
+        res.status(500).json({ message: 'Erro ao iniciar o servidor' });
+    }
+});
 
 const startServer = async () => {
     // Rota para lidar com mensagens de chat
@@ -31,8 +40,6 @@ const startServer = async () => {
         let prompt = setPrompt === '' ? 
             'Por favor, revise e corrija o seguinte texto em português, **mantendo o significado original e sem fornecer explicações sobre as correções:**\n\n' + userMessage + '\n\n**Concentre-se em corrigir a gramática, ortografia e pontuação.**' :
             setPrompt + '\n' + userMessage;
-
-        console.info('PROMPT:', prompt);
 
         try {
             const model = genAI.getGenerativeModel({ model: "gemini-pro" }); // Obtém o modelo generativo "gemini-pro" da instância genAI.
@@ -49,18 +56,9 @@ const startServer = async () => {
             console.error('Ocorreu um erro ao processar a solicitação:\n', error);
 
             const errorMessages = {
-                'Bad Request': {
-                    statusCode: 400,
-                    message: 'Solicitação inválida.'
-                },
-                'Payment Required': {
-                    statusCode: 402,
-                    message: 'Pagamento necessário.'
-                },
-                'default': {
-                    statusCode: 500,
-                    message: 'Ocorreu um erro interno. Tente novamente mais tarde.'
-                }
+                'Bad Request': { statusCode: 400, message: 'Solicitação inválida.' },
+                'Payment Required': { statusCode: 402, message: 'Pagamento necessário.' },
+                'default': { statusCode: 500, message: 'Ocorreu um erro interno. Tente novamente mais tarde.' }
             };
 
             let statusCode, errorMessageText;
@@ -81,7 +79,7 @@ const startServer = async () => {
 };
 
 app.listen(port, () => {
-    console.log(`Servidor rodando na porta ${port}.\nClique aqui para abrir o servidor: http://localhost:${port}`);
+    console.log(`Servidor rodando na porta ${port}.`);
 });
 
 // Função assíncrona para carregar o módulo node-fetch de forma dinâmica e definir globalmente o método fetch.
