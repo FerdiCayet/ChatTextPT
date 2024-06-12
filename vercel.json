@@ -1,0 +1,13 @@
+{
+    "version": 2,
+    "name": "ChatTextPT",
+    "builds": [{ "src": "server.js", "use": "@vercel/node" }],
+    "routes": [
+        { "src": "/api/(.*)", "dest": "/server.js" },
+        { "src": "/(.*)", "dest": "/index.html" }
+    ],
+    "dev": { "port": 3000, "command": "nodemon server.js" },
+    "env": {
+      "GOOGLE_API_KEY": "@google_api_key"
+    }
+}
