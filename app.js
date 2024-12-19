@@ -1,8 +1,7 @@
 const { exec } = require('child_process');
 const express = require("express");
-const path = require("path");
 
-const { startServer } = require('./server.js');
+const app = require('./server.js'); // Importar o app do server.js
 
 // Função para abrir o navegador
 function openBrowser(url) {
@@ -22,13 +21,9 @@ function openBrowser(url) {
 
 // Função para iniciar o servidor Express
 async function startExpressServer() {
-    const app = express();
-    const port = process.env.PORT || 8001;
+    const port = process.env.PORT || 3000;
 
-    app.use(express.static(path.join(__dirname, "")));
-    app.get("/", (req, res) => {
-        res.sendFile(path.join(__dirname, "index.html"));
-    });
+    app.use(express.static('public'));
 
     return new Promise((resolve, reject) => {
         app.listen(port, () => {
@@ -42,10 +37,6 @@ async function startExpressServer() {
 async function startApp() {
     try {
         console.log("Iniciando servidor e navegador...");
-
-        // Iniciar o servidor do server.js
-        await startServer();
-        console.log("Servidor backend iniciado com sucesso.");
 
         // Iniciar o servidor Express
         const port = await startExpressServer();

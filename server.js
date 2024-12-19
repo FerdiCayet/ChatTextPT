@@ -7,7 +7,7 @@ const { GoogleGenerativeAI } = require("@google/generative-ai");
 loadNodeFetch();
 
 const app = express();
-const port = process.env.PORT || 3000;
+const port = process.env.PORT || 4000;
 
 app.use(cors()); // Habilita CORS para todas as rotas
 app.use(express.json());
@@ -22,39 +22,33 @@ if (!apiKey) {
 // Inicialize GoogleGenerativeAI com sua chave de API
 const genAI = new GoogleGenerativeAI(apiKey);
 
-app.get('/start-server', async (req, res) => {
+app.post('/api/chat', async (req, res) => {
+    const userMessage = req.body.message;
+    const setPrompt = req.body.prompt;
+
+    let prompt = setPrompt === '' ? 
+        'Por favor, revise e corrija o seguinte texto em português, **mantendo o significado original e sem fornecer explicações sobre as correções:**\n\n' + userMessage + '\n\n**Concentre-se em corrigir a gramática, ortografia e pontuação.**' :
+        setPrompt + '\n' + userMessage;
+
     try {
-        await startServer(); // Chama a função startServer
-        res.json({ message: 'Servidor iniciado com sucesso!' });
+        const model = genAI.getGenerativeModel({ model: "gemini-pro" }); // Obtém o modelo generativo "gemini-pro" da instância genAI.
+        const result = await model.generateContent(prompt); // Gera conteúdo com base no prompt fornecido usando um modelo (model).
+        const response = await result.response; // Aguarda a conclusão da geração e obtém a resposta.
+        const botResponse = response.text(); // A resposta é então convertida em texto e atribuída a botResponse.
+
+        // Substitua quebras de linha por <br> para que sejam exibidas corretamente no navegador
+        const formattedResponse = botResponse.replace(/\n/g, '<br>');
+
+        // Enviando a resposta do bot como resposta final
+        res.json({ message: formattedResponse });
     } catch (error) {
-        res.status(500).json({ message: 'Erro ao iniciar o servidor' });
-    }
-});
+        console.error('Ocorreu um erro ao processar a solicitação:\n', error);
 
-const startServer = async () => {
-    // Rota para lidar com mensagens de chat
-    app.post('/api/chat', async (req, res) => {
-        const userMessage = req.body.message;
-        const setPrompt = req.body.prompt;
-
-        let prompt = setPrompt === '' ? 
-            'Por favor, revise e corrija o seguinte texto em português, **mantendo o significado original e sem fornecer explicações sobre as correções:**\n\n' + userMessage + '\n\n**Concentre-se em corrigir a gramática, ortografia e pontuação.**' :
-            setPrompt + '\n' + userMessage;
-
-        try {
-            const model = genAI.getGenerativeModel({ model: "gemini-pro" }); // Obtém o modelo generativo "gemini-pro" da instância genAI.
-            const result = await model.generateContent(prompt); // Gera conteúdo com base no prompt fornecido usando um modelo (model).
-            const response = await result.response; // Aguarda a conclusão da geração e obtém a resposta.
-            const botResponse = response.text(); // A resposta é então convertida em texto e atribuída a botResponse.
-
-            // Substitua quebras de linha por <br> para que sejam exibidas corretamente no navegador
-            const formattedResponse = botResponse.replace(/\n/g, '<br>');
-
-            // Enviando a resposta do bot como resposta final
-            res.json({ message: formattedResponse });
-        } catch (error) {
-            console.error('Ocorreu um erro ao processar a solicitação:\n', error);
-
+        if (error.message.includes('SAFETY')) {
+            // Em caso de erro de segurança (bloqueio de conteúdo), responda com uma mensagem amigável
+            res.status(400).json({ message: 'Ocorreu um erro ao processar a solicitação. O conteúdo enviado foi bloqueado por questões de segurança. Tente enviar um texto diferente.' });
+        } else {
+            // Para outros erros, forneça uma resposta padrão de erro interno
             const errorMessages = {
                 'Bad Request': { statusCode: 400, message: 'Solicitação inválida.' },
                 'Payment Required': { statusCode: 402, message: 'Pagamento necessário.' },
@@ -75,8 +69,8 @@ const startServer = async () => {
             console.error(`Erro: ${errorMessageText}`);
             res.status(statusCode).json({ message: errorMessageText });
         }
-    });
-};
+    }
+});
 
 app.listen(port, () => {
     console.log(`Servidor rodando na porta ${port}.`);
@@ -94,5 +88,5 @@ async function loadNodeFetch() {
     }
 }
 
-// Exporte a função startServer para que possa ser acessada de outros módulos
-module.exports = { startServer };
+// Exportar app como o padrão para Vercel
+module.exports = app;
