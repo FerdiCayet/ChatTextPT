@@ -9,7 +9,7 @@ const chatSaves = document.querySelector('.chat-saves');
 const chatHistoryContainer = document.querySelector('.chat-history');
 const chatConfig = document.querySelector('.chat-config');
 const darkMode = document.getElementById('darkMode');
-const checkBox = document.getElementById("setting");
+const checkBox = document.getElementById('setting');
 const deleteButton = document.getElementById('deleteChat');
 const dialog = document.querySelector('dialog');
 const cancelButton = dialog.querySelector('.cancelButton');
@@ -18,24 +18,24 @@ const promptModeCheckbox = document.getElementById('promptMode');
 const radioConfigs = document.querySelectorAll('.radio-config input[type="radio"]');
 const pInfo = document.querySelector('.promptInfo p');
 const chatPage = document.querySelector('.chat-container');
-const chatStart = document.querySelector('.chat-start')
+const chatStart = document.querySelector('.chat-start');
 const chatLog = document.getElementById('chat-log');
 const copyText = document.querySelectorAll('.copyText');
 const userText = document.getElementById('user-text');
 const userInput = document.querySelector('.user-input');
 const sendButton = document.getElementById('send-button');
-const chatOptions  = document.querySelectorAll('.chat-option');
+const chatOptions = document.querySelectorAll('.chat-option');
 const chatNewButton = document.querySelector('#start-chat');
 
 // Seleciona o elemento <body> do documento HTML
 const body = document.body;
 
 // Configura consultas de mídia para diferentes tamanhos de tela
-const desktopScreen = window.matchMedia("(min-width: 701px) and (max-width: 1110px)"); // Configura uma consulta de mídia para telas de desktop.
-const mobileScreen = window.matchMedia("(max-width: 700px)"); // Configura uma consulta de mídia para telas de dispositivos móveis.
+const desktopScreen = window.matchMedia('(min-width: 701px) and (max-width: 1110px)'); // Configura uma consulta de mídia para telas de desktop.
+const mobileScreen = window.matchMedia('(max-width: 700px)'); // Configura uma consulta de mídia para telas de dispositivos móveis.
 
 // Carrega os chats salvos do localStorage, ou cria um novo array vazio se não houver nenhum
-let savedChats = JSON.parse(localStorage.getItem("savedChats")) || [];
+let savedChats = JSON.parse(localStorage.getItem('savedChats')) || [];
 
 // Define o índice do chat atual como o comprimento do array de chats salvos, ou 0 se não houver chats salvos ainda
 let currentChatIndex = savedChats.length || 0;
@@ -55,7 +55,6 @@ let promptValue = ''; //Inicializa uma variável para controlar o prompt, como u
 
 // Define o valor inicial do campo de texto do usuário como uma string vazia
 userText.value = '';
-
 
 // Evento DOMContentLoaded é acionado quando o HTML foi completamente carregado e analisado
 document.addEventListener('DOMContentLoaded', () => {
@@ -78,7 +77,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Função para criar efeito de digitação para os parágrafos
     function digitarParagrafos(index) {
-
         // Verifica se ainda há parágrafos para digitar
         if (index < paragrafos.length) {
             // Cria um novo elemento <p>
@@ -94,7 +92,7 @@ document.addEventListener('DOMContentLoaded', () => {
             });
         }
     }
-        
+
     // Inicia o efeito de digitação para o primeiro parágrafo
     digitarParagrafos(0);
 });
@@ -130,7 +128,7 @@ function updateChatList() {
 
         // Adiciona eventos de clique para opções de chat
         const chatInfos = chatHistoryContainer.querySelectorAll('.chat-info');
-        chatInfos.forEach(chatInfo => {
+        chatInfos.forEach((chatInfo) => {
             chatInfo.addEventListener('click', (e) => {
                 handleChatLoading(e);
             });
@@ -153,7 +151,7 @@ function handleChatLoading(e) {
     // Verifica se existem mensagens salvas para o chat clicado e as exibe
     if (savedChats[chatInfo.slot]) {
         int = 0;
-        savedChats[chatInfo.slot].forEach(message => appendMessage(message.type, message.message));
+        savedChats[chatInfo.slot].forEach((message) => appendMessage(message.type, message.message));
     }
 }
 
@@ -184,11 +182,7 @@ darkMode.addEventListener('click', toggleDarkMode);
 
 // Função para rolar para o final da página quando o ícone de rolagem é clicado
 iconScroll.addEventListener('click', () => {
-    window.scrollTo({
-        top: document.body.scrollHeight,
-        left: 0,
-        behavior: "smooth",
-    });
+    window.scrollTo({ top: document.body.scrollHeight, left: 0, behavior: 'smooth' });
 });
 
 // Evento para criar um novo chat
@@ -198,7 +192,7 @@ chatNewButton.addEventListener('click', createNewChat);
 function createNewChat() {
     currentChatIndex = savedChats.length;
     if (savedChats[currentChatIndex]) {
-        savedChats[currentChatIndex].forEach(message => appendMessage(message.type, message.message));
+        savedChats[currentChatIndex].forEach((message) => appendMessage(message.type, message.message));
     }
 
     int = 1;
@@ -212,9 +206,9 @@ function createNewChat() {
 
 // Evento para abrir/fechar o menu lateral
 menuIcon.addEventListener('click', () => {
-    chatSaves.style.position = (chatSaves.style.position === 'relative') ? 'absolute' : 'relative';
-    chatSaves.style.left = (chatSaves.style.left === 'auto') ? '-230px': 'auto';
-    btnMenu.style.left = (btnMenu.style.left === '180px') ? '11px': '180px';
+    chatSaves.style.position = chatSaves.style.position === 'relative' ? 'absolute' : 'relative';
+    chatSaves.style.left = chatSaves.style.left === 'auto' ? '-230px' : 'auto';
+    btnMenu.style.left = btnMenu.style.left === '180px' ? '11px' : '180px';
 });
 
 // Evento de clique no elemento que permite ao usuário alternar entre as opções "Conversas" e "Configuração".
@@ -306,7 +300,7 @@ confirmButton.addEventListener('click', () => {
     createNewChat();
 
     // Remove completamente os chats salvos do armazenamento local
-    localStorage.removeItem("savedChats");
+    localStorage.removeItem('savedChats');
 
     dialog.close(); // Fechar o diálogo após confirmar a exclusão
 });
@@ -319,7 +313,7 @@ radioConfigs.forEach((radio, index) => {
 
 // Função para desabilitar ou habilitar os radio buttons
 function toggleRadioButtons(disabled) {
-    radioConfigs.forEach(radio => {
+    radioConfigs.forEach((radio) => {
         radio.disabled = disabled;
     });
 
@@ -331,7 +325,7 @@ function toggleRadioButtons(disabled) {
 toggleRadioButtons(promptModeCheckbox.checked);
 
 // Adicione um ouvinte de evento para o promptModeCheckbox
-promptModeCheckbox.addEventListener('change', function() {
+promptModeCheckbox.addEventListener('change', function () {
     // Verificando se o checkbox está marcado
     if (this.checked) {
         toggleRadioButtons(true); // Desabilita os radio buttons
@@ -340,10 +334,9 @@ promptModeCheckbox.addEventListener('change', function() {
     }
 });
 
-
 // Adicione um evento de change para cada radio button
-radioConfigs.forEach(radioButton => {
-    radioButton.addEventListener('change', () => {        
+radioConfigs.forEach((radioButton) => {
+    radioButton.addEventListener('change', () => {
         const promptQualityRadio = document.querySelector('input[name="promptQuality"]:checked');
         const promptTypeRadio = document.querySelector('input[name="promptType"]:checked');
 
@@ -369,8 +362,8 @@ radioConfigs.forEach(radioButton => {
                 const quality = promptQualityRadio.value;
                 const type = promptTypeRadio.value;
 
-                promptValue = quality +' e '+ type;
-                
+                promptValue = quality + ' e ' + type;
+
                 let message = `Você receberá sugestões abrangentes e específicas para aprimorar a qualidade do texto, adaptadas para uma ${quality} qualidade e com um formato de ${type} adequado às suas necessidades.`;
                 pInfo.innerText = message;
             } else {
@@ -389,16 +382,16 @@ function updatePromptValue(value) {
 
     if (value === 'alta') {
         prompt = 'Por favor, gere uma melhoria para o seguinte texto em português com alta qualidade, mantendo sua qualidade e coerência. Apenas forneça o texto corrigido e evite fornecer explicações sobre as correções realizadas:\n';
-    }else if (value === 'baixa') {
+    } else if (value === 'baixa') {
         prompt = 'Poderia melhorar o texto em português a seguir? Apenas forneça o texto corrigido e evite fornecer explicações sobre as correções realizadas:\n';
-    }else if (value === 'alta e email') {
+    } else if (value === 'alta e email') {
         prompt = 'Por gentileza, elabore uma versão melhorada do seguinte texto em português, com alta qualidade e tom formal, no formato de e-mail, mantendo sua coerência. Por favor, forneça apenas o texto corrigido, evitando explicações sobre as correções realizadas, assim como observações e sugestões adicionais:\n';
-    }else if (value === 'alta e chat') {
+    } else if (value === 'alta e chat') {
         prompt = 'Por favor, gere uma melhoria para o seguinte texto em português no formato de chat, mantendo sua qualidade e coerência. Apenas forneça o texto corrigido e evite fornecer explicações sobre as correções realizadas:\n';
-    }else if (value === 'baixa e email') {
+    } else if (value === 'baixa e email') {
         prompt = 'Por gentileza, elabore uma versão melhorada do seguinte texto em português, com baixa qualidade e tom informal, no formato de e-mail, mantendo sua coerência. Por favor, forneça apenas o texto corrigido, evitando explicações sobre as correções realizadas, assim como observações e sugestões adicionais:\n';
-    }else if (value === 'baixa e chat') {
-        prompt = 'Por favor, revise e melhore o texto em português no formato de chat, mantendo sua qualidade e significado original. Evite fornecer explicações sobre as correções realizadas:\n';        
+    } else if (value === 'baixa e chat') {
+        prompt = 'Por favor, revise e melhore o texto em português no formato de chat, mantendo sua qualidade e significado original. Evite fornecer explicações sobre as correções realizadas:\n';
     }
 
     promptValue = prompt;
@@ -406,7 +399,7 @@ function updatePromptValue(value) {
 
 // Função para verificar se o usuário está no final do chat
 function isUserAtBottom() {
-    return chatLog.scrollTop >= (chatLog.scrollHeight - chatLog.offsetHeight);
+    return chatLog.scrollTop >= chatLog.scrollHeight - chatLog.offsetHeight;
 }
 
 // Função para criar e manipular o elemento de rolagem para baixo
@@ -435,19 +428,17 @@ chatLog.addEventListener('scroll', toggleScrollDownButton); // Verifica se o bot
 
 // Evento para rolar o chat para baixo quando o botão de rolagem para baixo é clicado
 scrollDownButton.addEventListener('click', () => {
-    chatLog.scrollTo({
-        top: chatLog.scrollHeight,
-        left: 0,
-        behavior: "smooth",
-    });
+    chatLog.scrollTo({ top: chatLog.scrollHeight, left: 0, behavior: 'smooth' });
 });
 
 // Função para lidar com mudanças no tamanho da tela
 function handleSizeWidth() {
-    if (desktopScreen.matches) { // Verificando se a tela é de desktop
+    if (desktopScreen.matches) {
+        // Verificando se a tela é de desktop
         screenSizeDesktop(); // Chamando a função específica para tela de desktop
     }
-    if (mobileScreen.matches) { // Verificando se a tela é de celular
+    if (mobileScreen.matches) {
+        // Verificando se a tela é de celular
         screenSizeMobile(); // Chamando a função específica para tela de celular
     }
 }
@@ -552,10 +543,10 @@ function sendMessage() {
     if (userMessage !== '') {
         // Adicionar a mensagem do usuário ao registro de mensagens, identificando-a como uma mensagem de usuário
         appendMessage('user', userMessage); // A mensagem do usuário é adicionada ao registro de mensagens com a função appendMessage()
-        
+
         // Enviar a mensagem para o chatbot e processar a resposta
         sendToChatBot(userMessage, promptValue)
-            .then(botResponse => {
+            .then((botResponse) => {
                 // Marcar que não há mais uma conversa existente, pois uma nova mensagem foi enviada pelo usuário
                 existingChat = false;
                 // Adicionar a mensagem do bot ao registro de mensagens
@@ -567,9 +558,9 @@ function sendMessage() {
                 savedChats[currentChatIndex].push({ type: 'bot', message: botResponse });
 
                 // Atualizar o localStorage com o histórico de conversas atualizado
-                localStorage.setItem("savedChats", JSON.stringify(savedChats));
+                localStorage.setItem('savedChats', JSON.stringify(savedChats));
             })
-            .catch(error => {
+            .catch((error) => {
                 // Em caso de erro ao enviar ou receber a resposta do chatbot, exibir uma mensagem de erro
                 const errorMessage = 'Desculpe, ocorreu um erro ao se comunicar com o chatbot.';
                 appendMessage('bot', errorMessage);
@@ -581,8 +572,8 @@ function sendMessage() {
                 savedChats[currentChatIndex].push({ type: 'bot', message: errorMessage });
 
                 // Atualizar o localStorage com o histórico de conversas atualizado
-                localStorage.setItem("savedChats", JSON.stringify(savedChats));
-            });        
+                localStorage.setItem('savedChats', JSON.stringify(savedChats));
+            });
     }
 
     clearInputField();
@@ -638,9 +629,9 @@ function createBotMessage(message) {
     const messageDiv = document.createElement('div');
     messageDiv.className = 'bot-message';
 
-    const div = document.createElement("div");
+    const div = document.createElement('div');
     div.className = 'copyText';
-    
+
     if (existingChat === false) {
         // Se for uma nova conversa, adicionar a mensagem de forma animada
         addTextAnimated(messageDiv, message, 10, () => {
@@ -648,10 +639,10 @@ function createBotMessage(message) {
         });
         existingChat = true; // Marcar que a conversa já existe
     } else {
-        messageDiv.textContent = message;
+        messageDiv.innerHTML = message;
         messageDiv.appendChild(div);
     }
-    
+
     copyTextOnClick(div); // Adicionar um evento de clique para a opção de cópia
 
     return messageDiv;
@@ -677,14 +668,15 @@ function appendMessage(type, message) {
 function copyTextOnClick(element) {
     element.addEventListener('click', () => {
         const getText = element.parentElement.innerText;
-        navigator.clipboard.writeText(getText)
+        navigator.clipboard
+            .writeText(getText)
             .then(() => {
                 element.classList.add('copied');
                 setTimeout(() => {
                     element.classList.remove('copied');
                 }, 3000); // Remove a classe "copied" após 3 segundos
             })
-            .catch(err => {
+            .catch((err) => {
                 console.error('Erro ao copiar texto: ', err);
                 element.classList.add('error');
                 setTimeout(() => {
@@ -695,7 +687,7 @@ function copyTextOnClick(element) {
 }
 
 // Adiciona o evento de cópia de texto para cada elemento da lista
-copyText.forEach(text => {
+copyText.forEach((text) => {
     copyTextOnClick(text);
 });
 
@@ -721,7 +713,7 @@ function createChatInfo(message) {
     chatInfo.addEventListener('click', (e) => {
         handleChatLoading(e);
     });
-    
+
     chatInfo.slot = currentChatIndex;
 
     // Adicione o código para salvar a informação no localStorage
@@ -797,28 +789,21 @@ chatOptions.forEach((option) => {
 // Função assíncrona para enviar mensagem ao chatbot
 async function sendToChatBot(message, prompt) {
     try {
-        // Verifica se estamos em desenvolvimento local
-        const isLocalhost = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1';
-
-        // Define a URL base para as requisições
-        const baseURL = isLocalhost ? 'http://localhost:4000' : `${window.location.protocol}//${window.location.hostname}`;
-
-        // Envia uma solicitação HTTP POST para o endpoint do chatbot
-        const response = await fetch(`${baseURL}/api/chat`, {
+        // const response = await fetch("http://10.0.0.124:4000/api/chat", {
+        const response = await fetch('/api/chat', {
             method: 'POST', // Método POST é usado para enviar dados ao servidor
             headers: {
-                'Content-Type': 'application/json', // Define o tipo de conteúdo como JSON
+                'Content-Type': 'application/json' // Define o tipo de conteúdo como JSON
             },
-            body: JSON.stringify({ message, prompt }), // Envia a mensagem e o prompt no corpo da solicitação em formato JSON
+            body: JSON.stringify({ message, prompt }) // Envia a mensagem e o prompt no corpo da solicitação em formato JSON
         });
-
-        // Verifica se a resposta está OK (status code 200-299)
-        // if (!response.ok) {
-        //     throw new Error(`Erro na resposta do servidor: ${response.statusText}`);
-        // }
 
         // Aguarda a resposta da solicitação HTTP e a converte para JSON
         const data = await response.json();
+
+        if (!response.ok) {
+            throw new Error(data?.message || 'Erro ao comunicar com o servidor');
+        }
 
         // Retorna a mensagem recebida do chatbot contida no corpo da resposta
         return data.message;
