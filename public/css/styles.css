@@ -94,12 +94,8 @@ body {
     animation: blink 0.5s linear infinite alternate;
 }
 @keyframes blink {
-    50% {
-        opacity: 0;
-    }
-    100% {
-        opacity: 1;
-    }
+    50% { opacity: 0; }
+    100% { opacity: 1; }
 }
 
 .icon-scroll,
@@ -129,9 +125,7 @@ body {
     animation-name: scroll;
 }
 @keyframes scroll {
-    0% {
-        opacity: 1;
-    }
+    0% { opacity: 1; }
     100% {
         opacity: 0;
         transform: translateY(46px);
@@ -380,7 +374,7 @@ body {
     background-color: #ccc;
     border-color: #949ea8;
     cursor: not-allowed;
-    pointer-events: none; /* Impede interações do mouse */
+    pointer-events: none;
 }
 .radio-config input[type="radio"]:disabled + label {
     color: #949ea8;
@@ -526,7 +520,7 @@ body {
 .chat-log {
     background-color: #bf7e92c9;
     position: relative;
-    height: calc(100vh - 50px);
+    height: calc(100vh - 70px);
     overflow-y: auto;
     margin-bottom: 10px;
     padding: 10px;
@@ -569,25 +563,17 @@ body {
     cursor: pointer;
     border-radius: 4px;
     transition: 0.3s ease-in-out;
-    animation: zoomOut 0.3s ease-in-out forwards; /* Animação para diminuir o zoom quando o mouse sai */
+    animation: zoomOut 0.3s ease-in-out forwards;
 }
 
 @keyframes zoomIn {
-    from {
-        opacity: 0;
-    }
-    to {
-        opacity: 50%;
-    }
+    from { opacity: 0; }
+    to { opacity: 50%; }
 }
 
 @keyframes zoomOut {
-    from {
-        opacity: 50%;
-    }
-    to {
-        opacity: 0;
-    }
+    from { opacity: 50%; }
+    to { opacity: 0; }
 }
 
 .copyText.copied::after {
@@ -661,12 +647,12 @@ body {
     border: 1px solid #0b3367;
     background-color: #4da9c3;
     cursor: pointer;
-    transition: opacity 0.3s ease; /* Adicionando transição de 0.3 segundos para a propriedade opacity */
-    opacity: 1; /* Garante que o botão esteja inicialmente visível */
+    transition: opacity 0.3s ease;
+    opacity: 1;
 }
 .scrollDown.hidden {
-    opacity: 0; /* Define a opacidade para 0 quando o botão estiver oculto */
-    pointer-events: none; /* Desabilita eventos de clique quando o botão estiver oculto */
+    opacity: 0;
+    pointer-events: none;
 }
 .scrollDown:active {
     border: 1px solid #65cfef;
@@ -832,6 +818,7 @@ body.dark-mode {
 .dark-mode #user-text {
     background-color: #541b2e;
     color: #949ea8;
+    border: 1px solid #822236;
 }
 .dark-mode #user-text::placeholder {
     color: #868686;
