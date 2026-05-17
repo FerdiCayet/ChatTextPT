@@ -1,7 +1,7 @@
 require('dotenv').config();
 const express = require('express');
 const cors = require('cors');
-const { GoogleGenerativeAI } = require("@google/generative-ai");
+const { GoogleGenAI } = require("@google/genai");
 
 // Carregar o módulo node-fetch dinamicamente
 loadNodeFetch();
@@ -11,6 +11,7 @@ const port = process.env.PORT || 4000;
 
 app.use(cors()); // Habilita CORS para todas as rotas
 app.use(express.json());
+app.use(express.static('public'));
 
 // Verifique se a chave da API do Google Generative AI está definida
 const apiKey = process.env.GOOGLE_API_KEY;
@@ -20,7 +21,7 @@ if (!apiKey) {
 }
 
 // Inicialize GoogleGenerativeAI com sua chave de API
-const genAI = new GoogleGenerativeAI(apiKey);
+const genAI = new GoogleGenAI(apiKey);
 
 app.post('/api/chat', async (req, res) => {
     const userMessage = req.body.message;
@@ -31,13 +32,14 @@ app.post('/api/chat', async (req, res) => {
         setPrompt + '\n' + userMessage;
 
     try {
-        const model = genAI.getGenerativeModel({ model: "gemini-pro" }); // Obtém o modelo generativo "gemini-pro" da instância genAI.
-        const result = await model.generateContent(prompt); // Gera conteúdo com base no prompt fornecido usando um modelo (model).
-        const response = await result.response; // Aguarda a conclusão da geração e obtém a resposta.
-        const botResponse = response.text(); // A resposta é então convertida em texto e atribuída a botResponse.
+        const response = await genAI.models.generateContent({
+            model: "gemini-3-flash-preview",
+            contents: prompt,
+        });
 
+        const botResponse = response.text; // A resposta é então convertida em texto e atribuída a botResponse.
         // Substitua quebras de linha por <br> para que sejam exibidas corretamente no navegador
-        const formattedResponse = botResponse.replace(/\n/g, '<br>');
+        const formattedResponse = botResponse.trim().replaceAll(/\n/g, '<br>');
 
         // Enviando a resposta do bot como resposta final
         res.json({ message: formattedResponse });
