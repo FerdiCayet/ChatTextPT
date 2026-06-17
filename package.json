@@ -13,7 +13,7 @@
     "license": "ISC",
     "dependencies": {
         "@google/genai": "^2.3.0",
-        "concurrently": "^9.2.1",
+        "concurrently": "^10.0.3",
         "cors": "^2.8.6",
         "dotenv": "^17.4.2",
         "express": "^5.2.1",
